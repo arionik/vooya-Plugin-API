@@ -37,7 +37,7 @@ Everything is based on callbacks you provide as function pointers. For example, 
 	p_plugin->callbacks[0].type = vooCallback_RGBOut;
 	p_plugin->callbacks[0].method_rgb_out = invert;
 ```
-Turn on _Plugin debugging_ in vooya's preferences to get some console output.
+Turn on _Plugin debugging_ in vooya's preferences to get some console output. **Note the plugin API is still experimental.**
 
 <p align="right">
 	<img alt="" src="http://www.offminor.de/assets/i/6338ed0318370adfd89b7007b9004e41_290x290x0x0x290x170@2x.png" width="290">
