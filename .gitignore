@@ -1,0 +1,8 @@
+*.dll
+*.exp
+examples/gamma9.lib
+*.lib
+gamma9.obj
+*.obj
+*.dylib
+*.dSYM/
