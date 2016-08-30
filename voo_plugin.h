@@ -268,8 +268,6 @@ typedef struct
 		// adjustments applied. Can be used to feed the data outside of vooya as
 		// well as to alter the data right before display.
 		// Stride in bytes is equal to width*sizeof(voo_target_space_t).
-		// "p_user" might be provided by you from within voo_describe(...) and
-		// can be NULL or any custom data.
 		void (*method_rgb_out)( voo_target_space_t *p_data,
 							   voo_video_frame_metadata_t *p_metadata );
 
@@ -279,8 +277,6 @@ typedef struct
 		// feed the data outside of vooya. Properties like resolution
 		// and data format are given beforehand in on_load_video( ... ); you can
 		// save them in p_metadata->p_user_video. "p_data" is the image data.
-		// "p_user" might be provided by you from within voo_describe(...) and
-		// can be NULL or any custom data.
 		void (*method_native)( unsigned char *p_data,
 							  voo_video_frame_metadata_t *p_metadata );
 
@@ -296,8 +292,6 @@ typedef struct
 		// Called by vooya for each frame if histogram calculation (and display) is enabled.
 		// The three pointers contain the histograms for each channel respectively. Their
 		// length is (1<<bit_depth)-1 (floating point data is put into 12bits).
-		// "p_user" might be provided by you from within voo_describe(...) and can
-		// be NULL or any custom data.
 		void (*method_histogram)( unsigned int *p_h1, unsigned int *p_h2,
 					unsigned int *p_h3, voo_video_frame_metadata_t *p_metadata );
 	};
@@ -329,7 +323,7 @@ typedef struct {
 	// first sixteen bytes of data, which e.g. might contain magic data. p_user is
 	// voo_plugin_t::p_user. If responsible returns TRUE, open will be called.
 	// Only if input comes from stdin and "--container [your input UID]" is specified,
-	// responsible will not be called, but open() directly.
+	// responsible will not be called, but open( ... ) directly.
 	// For stdin, the filename is simply "-".
 	BOOL (*responsible)( const vooChar_t *filename, char *sixteen_bytes, void *p_user );
 	BOOL (*open)( const vooChar_t *filename, void *p_user );
@@ -339,6 +333,7 @@ typedef struct {
 	BOOL (*open_nowhere)( void *p_user );
 
 	// Called by vooya to get information about the video you provide.
+	// You should fill p_info with correct information to make vooya play.
 	BOOL (*get_properties)( voo_sequence_t *p_info, void *p_user );
 
 	// Client shall return the number of frames available, or ~0U if no
@@ -363,7 +358,8 @@ typedef struct {
 	void (*close)( void *p_user );
 
 	// After open( ... ) or open_nowhere( ... ), this is called.
-	BOOL (*error_msg)( const char **pp_err, void *p_user );
+	// Set pp_err to an appropriate, persistent error message or to NULL.
+	void (*error_msg)( const char **pp_err, void *p_user );
 
 	// Called by vooya to get supported file extensions. Those are then displayed in
 	// the "Open file" dialog. vooya will start with idx=0, then increment idx and

@@ -130,9 +130,8 @@ VP_API BOOL in_reload( void *p_user ){
 	return in_open_nowhere( p_user );
 }
 
-VP_API BOOL in_error( const char **pp_err, void *p_user ){
+VP_API void in_error( const char **pp_err, void *p_user ){
 	*pp_err = "Example error message.";
-	return TRUE;
 }
 
 VP_API void voo_describe( voo_plugin_t *p_plugin )
