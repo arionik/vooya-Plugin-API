@@ -31,11 +31,11 @@ VP_API void voo_describe( voo_plugin_t *p_plugin )
 ```
 Everything is based on callbacks you provide as function pointers. For example, you could write a function named `invert` which inverts a 32bit RGB pixel, and hand that function over to vooya like so:  
 ```C
-	p_plugin->callbacks[1].uid = "voo.test.rgb_invert";
-	p_plugin->callbacks[1].name = "RGB Inverter";
-	p_plugin->callbacks[1].description = "Inverts each channel";
-	p_plugin->callbacks[1].type = vooCallback_RGBOut;
-	p_plugin->callbacks[1].method_rgb_out = invert;
+	p_plugin->callbacks[0].uid = "voo.test.rgb_invert";
+	p_plugin->callbacks[0].name = "RGB Inverter";
+	p_plugin->callbacks[0].description = "Inverts each channel";
+	p_plugin->callbacks[0].type = vooCallback_RGBOut;
+	p_plugin->callbacks[0].method_rgb_out = invert;
 ```
 Turn on _Plugin debugging_ in vooya's preferences to get some console output.
 
