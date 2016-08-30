@@ -20,6 +20,18 @@ Add custom transfer functions to vooya's existing ones
 ## How to begin
 All is explained in [voo_plugin.h](voo_plugin.h) and some examples are given in the examples-folder. Run the make_* scripts to build them all for your platform and be sure to let vooya's plugin directory point to our examples.
 
+The whole functionality of your plugin is described by you in `voo_describe()`, where the main describing structure is to be filled:
+```C
+VP_API void voo_describe( voo_plugin_t *p_plugin )
+{
+	/* mandatory line */
+	p_plugin->voo_version = VOO_PLUGIN_API_VERSION;
+
+	p_plugin-> ...
+}
+```
+Turn on _Plugin debugging_ in vooya's preferences to get some console output.
+
 <p align="center">
 	<img alt="" src="http://www.offminor.de/assets/i/6338ed0318370adfd89b7007b9004e41_290x290x0x0x290x170@2x.png" width="290">
 </p>
