@@ -6,3 +6,4 @@ gamma9.obj
 *.obj
 *.dylib
 *.dSYM/
+.DS_Store
