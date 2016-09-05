@@ -164,7 +164,7 @@ typedef struct {
 } voo_app_info_t;
 
 
-// structure to describe a video sequence; you get this in on_load_video( ... )
+// structure to describe a video sequence; you fill this in on_load_video( ... )
 // when a new video has been loaded. Or, if you provide input_plugin_t, you fill this
 // structure in get_properties( ... ). Refer to the above data types.
 typedef struct  
