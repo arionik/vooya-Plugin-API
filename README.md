@@ -18,7 +18,7 @@ Add custom transfer functions to vooya's existing ones
 </p>
 
 ## How to begin
-All is explained in [voo_plugin.h](voo_plugin.h) and some examples are given in the examples-folder. Run the make_* scripts to build them all for your platform and be sure to let vooya's plugin directory point to our examples.
+All is explained in [voo_plugin.h](voo_plugin.h) and some examples are given in the examples-folder. Be sure to let vooya's plugin directory point to our examples.
 
 The whole functionality of your plugin is described by you in `voo_describe()`, where the main describing structure is to be filled:
 ```C
@@ -38,6 +38,11 @@ Everything is based on callbacks you provide as function pointers. For example, 
 	p_plugin->callbacks[0].method_rgb_out = invert;
 ```
 Turn on _Plugin debugging_ in vooya's preferences to get some console output. **Note the plugin API is still experimental.**
+
+###Building the examples
+- on **Windows**, open a Visual Studio Command Prompt (64bit or 32bit, according to you platform), cd to the root directory and type `make_win.bat`
+- on **Linux**, open a terminal, cd to the root directory and run `./make_unix.sh`
+- on **macOS**, make sure you have **clang** installed (XCode command line tools) open a terminal, cd to the root directory and run `./make_osx.sh`
 
 <p align="right">
 	<img alt="" src="http://www.offminor.de/assets/i/6338ed0318370adfd89b7007b9004e41_290x290x0x0x290x170@2x.png" width="290">
