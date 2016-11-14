@@ -220,11 +220,6 @@ typedef struct {
 	// frame number, beginning at zero
 	unsigned int frame_idx;
 
-	// b_reload signals this frame is being reloaded, i.e. for a Native callback,
-	// this frame has already been processed by method_native( ... ), while for an
-	// RGBOut callback it means that the target function has already seen p_user_frame.
-	BOOL b_reload;
-
 	char reserved[4*sizeof(void*)];
 
 } voo_video_frame_metadata_t;
