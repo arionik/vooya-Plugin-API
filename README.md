@@ -1,6 +1,6 @@
 # vooya Plugin API
 
-vooya is a raw video sequencer player for Windows, macOS and Linux and has, beginning with version 1.6, an open plugin API. The plugin mechanism is based on standard shared libraries loaded at runtime, so plugins can be written in any language suitable for creating shared libraries, notably C/C++ and Objective-C.
+vooya is a raw video sequencer player for Windows, macOS and Linux and has, beginning with version 1.6, an open plugin API. The plugin mechanism is based on standard shared libraries loaded at runtime, so plugins can be written in any language suitable for creating shared libraries, notably C/C++, Rust and Objective-C.
 
 Below you can see vooya's processing chain and where plugin callbacks can kick in (the items marked yellow). These are:
 + **Input**
