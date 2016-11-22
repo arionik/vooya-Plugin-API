@@ -50,8 +50,8 @@ const int height = 480;
 // Functions vooya will call when we provide input.
 //////////////////////////////////////////////////////////////////////////
 
-VP_API BOOL in_open_nowhere( void *p_user ){
-	my_plugin_t *p_loader = (my_plugin_t *)p_user;
+VP_API BOOL in_open_nowhere( void **pp_user ){
+	my_plugin_t *p_loader = (my_plugin_t *)*pp_user;
 	p_loader->state = 0.;
 	p_loader->frame = 0;
 	return TRUE;

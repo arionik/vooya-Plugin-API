@@ -27,7 +27,7 @@
 */
 
 
-#define VOO_PLUGIN_API_VERSION 1
+#define VOO_PLUGIN_API_VERSION 2
 
 #ifdef _WIN32
 	#include <wchar.h>
@@ -164,7 +164,7 @@ typedef struct {
 } voo_app_info_t;
 
 
-// structure to describe a video sequence; you fill this in on_load_video( ... )
+// structure to describe a video sequence; you get this in on_load_video( ... )
 // when a new video has been loaded. Or, if you provide input_plugin_t, you fill this
 // structure in get_properties( ... ). Refer to the above data types.
 typedef struct  
@@ -321,22 +321,30 @@ typedef struct {
 	// responsible will not be called, but open( ... ) directly.
 	// For stdin, the filename is simply "-".
 	BOOL (*responsible)( const vooChar_t *filename, char *sixteen_bytes, void *p_user );
-	BOOL (*open)( const vooChar_t *filename, void *p_user );
+	// The global p_user pointer you may have set in voo_describe( ... )
+	// is given here as *pp_user_seq, but you can alter it. In that case, subsequent
+	// calls to methods of this struct will have the new, per-sequence value. This is
+	// important on macOS, where multiple instances of this input may exist.
+	BOOL (*open)( const vooChar_t *filename, void **pp_user_seq );
 
 	// If the input is not based on file input (b_fileBased is FALSE),
-	// open_nowhere will be called.
-	BOOL (*open_nowhere)( void *p_user );
+	// open_nowhere will be called. The global p_user pointer you may have set in
+	// voo_describe( ... ) is given here as *pp_user_seq, but you can alter it.
+	// In that case, subsequent calls to methods of this struct will have the new,
+	// per-sequence value. This is important on macOS, where multiple instances
+	// of this input may exist.
+	BOOL (*open_nowhere)( void **pp_user_seq );
 
 	// Called by vooya to get information about the video you provide.
 	// You should fill p_info with correct information to make vooya play.
-	BOOL (*get_properties)( voo_sequence_t *p_info, void *p_user );
+	BOOL (*get_properties)( voo_sequence_t *p_info, void *p_user_seq );
 
 	// Client shall return the number of frames available, or ~0U if no
 	// framecount can be given (e.g. stdin).
-	unsigned int (*framecount)( void *p_user );
+	unsigned int (*framecount)( void *p_user_seq );
 
 	// Shall issue a seek by the client plugin to frame number "frame"
-	BOOL (*seek)( unsigned int frame, void *p_user );
+	BOOL (*seek)( unsigned int frame, void *p_user_seq );
 
 	// Load contents of frame number "frame" into p_buffer. p_buffer has a size
 	// appropriate to the format given by the client in get_properties( ... ).
@@ -345,21 +353,21 @@ typedef struct {
 	// repeated. "pp_user_frame" can hold custom data and is later available
 	// in voo_video_frame_metadata_t::p_user_frame.
 	BOOL (*load)( unsigned int frame, char *p_buffer, BOOL *pb_skipped,
-				 void **pp_user_frame, void *p_user );
+				 void **pp_user_frame, void *p_user_seq );
 
-	BOOL (*eof)( void *p_user );
-	BOOL (*good)( void *p_user );
-	BOOL (*reload)( void *p_user );
-	void (*close)( void *p_user );
+	BOOL (*eof)( void *p_user_seq );
+	BOOL (*good)( void *p_user_seq );
+	BOOL (*reload)( void *p_user_seq );
+	void (*close)( void *p_user_seq );
 
 	// After open( ... ) or open_nowhere( ... ), this is called.
 	// Set pp_err to an appropriate, persistent error message or to NULL.
-	void (*error_msg)( const char **pp_err, void *p_user );
+	void (*error_msg)( const char **pp_err, void *p_user_seq );
 
 	// Called by vooya to get supported file extensions. Those are then displayed in
 	// the "Open file" dialog. vooya will start with idx=0, then increment idx and
 	// call this again as long as you return TRUE. (only called when b_fileBased is true)
-	BOOL (*file_suffixes)( int idx, const char **pp_suffix, void *p_user );
+	BOOL (*file_suffixes)( int idx, const char **pp_suffix, void *p_user_seq );
 
 	char reserved2[4*sizeof(void*)];
 
