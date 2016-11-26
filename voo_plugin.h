@@ -80,7 +80,8 @@ typedef enum {
 	vooCS_RGB,
 	vooCS_Gray,
 	vooCS_HSV,
-	vooCS_YCgCo
+	vooCS_YCgCo,
+	vooCS_ICtCp
 } voo_colorSpace_t;
 
 typedef enum
@@ -219,6 +220,10 @@ typedef struct {
 
 	// frame number, beginning at zero
 	unsigned int frame_idx;
+
+#define VOOPerFrameFlag_YouAlreadyProcessed 0x01 // this frame has already been processed by you
+#define VOOPerFrameFlag_IsFromCache         0x02 // this one comes from RGB-display cache
+	int flags;
 
 	char reserved[4*sizeof(void*)];
 
@@ -368,6 +373,16 @@ typedef struct {
 	// the "Open file" dialog. vooya will start with idx=0, then increment idx and
 	// call this again as long as you return TRUE. (only called when b_fileBased is true)
 	BOOL (*file_suffixes)( int idx, const char **pp_suffix, void *p_user_seq );
+
+	// Called by vooya to enumerate meta information tags about the video you provide.
+	// idx is counting up for each call as long as TRUE is return. Return FALSE to finish the 
+	// enumeration. "buffer_k" char[64] and shall take a key, "buffer_v" char[1024] and
+	// shall take a corresponding value.
+	BOOL (*get_meta)( int idx, char *buffer_k, char *buffer_v, void *p_user_seq );
+
+	// vooya gives you a callback that you might call whenever the sequence's number of frames
+	// will change. Note that p_vooya_ctx must not be altered and is valid only as long as this input is bound.
+	void (*cb_seq_len_changed)( void (*seq_len_callback)( void *p_vooya_ctx, unsigned int new_len ), void *p_vooya_ctx );
 
 	char reserved2[4*sizeof(void*)];
 
