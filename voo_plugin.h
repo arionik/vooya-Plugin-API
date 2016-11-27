@@ -256,6 +256,9 @@ typedef struct
 	void (*on_select)( voo_sequence_t *p_info, voo_app_info_t *p_app_info, void *p_user, void **pp_user_video );
 	void (*on_deselect)( void *p_user, void *p_user_video );
 
+	// Flags to signal something to vooya (for future use)
+	int flags;
+
 	// type determines which callback signature will be called
 	vooya_callback_type_t type;
 
@@ -316,6 +319,9 @@ typedef struct {
 	// will be displayed in the plugins-menu that the user can select as current input.
 	// In that case, vooya will call open_nowhere( ... ).
 	BOOL b_fileBased;
+
+	// Flags to signal something to vooya (for future use)
+	int flags;
 
 	char reserved1[8];
 
@@ -401,6 +407,9 @@ typedef struct
 	const char *description;
 	const char *copyright;
 	const char *version;
+
+	// Flags to signal something to vooya (for future use)
+	int flags;
 
 	// any user data that shall be forwarded by vooya into other callback
 	// functions ("void *p_user" argument)
