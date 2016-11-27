@@ -253,7 +253,7 @@ typedef struct
 	const char *description; // a more in-depth description
 
 	// Functions vooya will call upon user's (de)selection of this callback (optional)
-	void (*on_select)( void *p_user, void *p_user_video );
+	void (*on_select)( voo_sequence_t *p_info, voo_app_info_t *p_app_info, void *p_user, void **pp_user_video );
 	void (*on_deselect)( void *p_user, void *p_user_video );
 
 	// type determines which callback signature will be called
@@ -330,7 +330,7 @@ typedef struct {
 	// is given here as *pp_user_seq, but you can alter it. In that case, subsequent
 	// calls to methods of this struct will have the new, per-sequence value. This is
 	// important on macOS, where multiple instances of this input may exist.
-	BOOL (*open)( const vooChar_t *filename, void **pp_user_seq );
+	BOOL (*open)( const vooChar_t *filename, voo_app_info_t *p_app_info, void **pp_user_seq );
 
 	// If the input is not based on file input (b_fileBased is FALSE),
 	// open_nowhere will be called. The global p_user pointer you may have set in
@@ -338,7 +338,7 @@ typedef struct {
 	// In that case, subsequent calls to methods of this struct will have the new,
 	// per-sequence value. This is important on macOS, where multiple instances
 	// of this input may exist.
-	BOOL (*open_nowhere)( void **pp_user_seq );
+	BOOL (*open_nowhere)( voo_app_info_t *p_app_info, void **pp_user_seq );
 
 	// Called by vooya to get information about the video you provide.
 	// You should fill p_info with correct information to make vooya play.
@@ -401,7 +401,7 @@ typedef struct
 	const char *description;
 	const char *copyright;
 	const char *version;
-	
+
 	// any user data that shall be forwarded by vooya into other callback
 	// functions ("void *p_user" argument)
 	void *p_user;
@@ -409,21 +409,13 @@ typedef struct
 	// called by vooya before the plugin is unloaded
 	void (*on_unload_plugin)( void *p_user );
 
-	// called by vooya when a new video has been loaded
-	void (*on_load_video)( voo_sequence_t *p_info, voo_app_info_t *p_app_info,
-						  void **pp_user_video, void *p_user );
-
-	// called by vooya when a video has been unloaded
-	void (*on_unload_video)( void *p_user_video, void *p_user );
-
-	char reserved1[4*sizeof(void*)];
+	char reserved1[6*sizeof(void*)];
 
 	// the plugin's callback functions
 	vooya_callback_t callbacks[10];
 
 	// plugin's input capabilities. See input_plugin_t above.
 	input_plugin_t input;
-
 
 } voo_plugin_t;
 
