@@ -50,7 +50,7 @@ const int height = 480;
 // Functions vooya will call when we provide input.
 //////////////////////////////////////////////////////////////////////////
 
-VP_API BOOL in_open_nowhere( void **pp_user ){
+VP_API BOOL in_open_nowhere( voo_app_info_t *p_app_info, void **pp_user ){
 	my_plugin_t *p_loader = (my_plugin_t *)*pp_user;
 	p_loader->state = 0.;
 	p_loader->frame = 0;
@@ -127,7 +127,7 @@ VP_API BOOL in_good( void *p_user ){
 }
 
 VP_API BOOL in_reload( void *p_user ){
-	return in_open_nowhere( p_user );
+	return in_open_nowhere( 0x0, p_user );
 }
 
 VP_API void in_error( const char **pp_err, void *p_user ){
