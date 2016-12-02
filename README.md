@@ -39,6 +39,11 @@ Everything is based on callbacks you provide as function pointers. For example, 
 ```
 Turn on _Plugin debugging_ in vooya's preferences to get some console output. **Note the plugin API is still experimental.**
 
+###Building the examples
+- on **Windows**, open a Visual Studio Command Prompt (64bit or 32bit, according to your platform), cd to the root directory and type `make_win.bat`
+- on **Linux**, open a terminal, cd to the root directory and run `./make_unix.sh`
+- on **macOS**, make sure you have **clang** installed (XCode command line tools) open a terminal, cd to the root directory and run `./make_osx.sh`
+
 <p align="right">
 	<img alt="" src="http://www.offminor.de/assets/i/6338ed0318370adfd89b7007b9004e41_290x290x0x0x290x170@2x.png" width="290">
 </p>
