@@ -165,11 +165,13 @@ typedef struct {
 } voo_app_info_t;
 
 
-// structure to describe a video sequence; you get this in on_load_video( ... )
-// when a new video has been loaded. Or, if you provide input_plugin_t, you fill this
-// structure in get_properties( ... ). Refer to the above data types.
+// structure to describe a video sequence; you get this in on_select( ... )
+// when a new video has been loaded or your plugin is selected. Or, if you provide input_plugin_t,
+// you fill this structure in get_properties( ... ). Refer to the above data types.
 typedef struct  
 {
+	const vooChar_t *filename;
+
 	// video resolution
 	int width;
 	int height;
@@ -223,6 +225,7 @@ typedef struct {
 
 #define VOOPerFrameFlag_YouAlreadyProcessed 0x01 // this frame has already been processed by you
 #define VOOPerFrameFlag_IsFromCache         0x02 // this one comes from RGB-display cache
+#define VOOPerFrameFlag_IsDifference        0x04 // this frame is a difference frame
 	int flags;
 
 	char reserved[4*sizeof(void*)];
