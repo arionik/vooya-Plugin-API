@@ -1,8 +1,8 @@
 
 // compile with
-// 	rustc --crate-type dylib rustplugin.rs
-//          on windows:
-//	rustc --crate-type cdylib -C opt-level=3 -C link-args=-s  -C prefer-dynamic rustplugin.rs
+//  rustc --crate-type dylib rustplugin.rs
+// on windows:
+//  rustc --crate-type cdylib -C opt-level=3 -C link-args=-s  -C prefer-dynamic rustplugin.rs
 
 use std::os::raw::{c_void,c_char,c_uchar,c_int,c_uint,c_double};
 
@@ -177,7 +177,7 @@ pub struct voo_app_info_t {
 	// note that this should happen not too often.
 	p_reload_cargo: *const c_void,
 	pf_trigger_reload: extern fn(p_reload_cargo: *const c_void) -> c_int,
-	
+
 	reserved: [c_char; 32],
 }
 
@@ -208,7 +208,6 @@ pub struct voo_video_frame_metadata_t {
 	flags: c_int,
 
 	reserved: [c_char; 32],
-
 }
 
 #[allow(dead_code)]
