@@ -17,10 +17,10 @@ const VOO_PLUGIN_API_VERSION: i32 = 2;
 #[repr(C)]
 pub struct voo_target_space_t
 {
-    x: c_uchar,
-    r: c_uchar,
-    g: c_uchar,
-    b: c_uchar,
+	x: c_uchar,
+	r: c_uchar,
+	g: c_uchar,
+	b: c_uchar,
 }
 #[allow(dead_code)]
 #[allow(non_camel_case_types)] 
@@ -28,66 +28,66 @@ pub struct voo_target_space_t
 #[repr(C)]
 pub struct voo_target_space_t
 {
-    b: c_uchar,
-    g: c_uchar,
-    r: c_uchar,
-    x: c_uchar,
+	b: c_uchar,
+	g: c_uchar,
+	r: c_uchar,
+	x: c_uchar,
 }
 
 
 #[allow(dead_code)]
 #[allow(non_camel_case_types)] 
 pub enum voo_colorSpace_t {
-    vooColorSpace_Unknown = -1,
-    vooCS_YUV,
-    vooCS_XYZ,
-    vooCS_YIQ,
-    vooCS_RGB,
-    vooCS_Gray,
-    vooCS_HSV,
-    vooCS_YCgCo,
-    vooCS_ICtCp
+	vooColorSpace_Unknown = -1,
+	vooCS_YUV,
+	vooCS_XYZ,
+	vooCS_YIQ,
+	vooCS_RGB,
+	vooCS_Gray,
+	vooCS_HSV,
+	vooCS_YCgCo,
+	vooCS_ICtCp
 }
 
 #[allow(dead_code)]
 #[allow(non_camel_case_types)] 
 #[allow(non_snake_case)] 
 pub enum voo_dataArrangement_t {
-    vooDataArrangement_Unknown = -1,
-    vooDA_planar_420,
-    vooDA_planar_422,
-    vooDA_planar_444,
-    vooDA_planar_410,
-    vooDA_planar_411,
-    vooDA_uyvy,
-    vooDA_yuyv,
-    vooDA_yuy2,
-    vooDA_nv12,
-    vooDA_v210,
-    vooDA_interleaved_410,
-    vooDA_interleaved_411,
-    vooDA_reserved0,
-    vooDA_interleaved_422,
-    vooDA_interleaved_444,
-    vooDA_single,
-    vooDA_singleDouble,
-    vooDA_singleFloat,
-    vooDA_planar_420double,
-    vooDA_planar_422double,
-    vooDA_planar_444double,
-    vooDA_planar_410double,
-    vooDA_planar_411double,
-    vooDA_planar_420float,
-    vooDA_planar_422float,
-    vooDA_planar_444float,
-    vooDA_planar_410float,
-    vooDA_planar_411float,
-    vooDA_rgb565,
-    vooDA_rgb555,
-    vooDA_r210,
-    vooDA_v410,
-    vooDA_yuv10,
-    vooNumDataArrangements
+	vooDataArrangement_Unknown = -1,
+	vooDA_planar_420,
+	vooDA_planar_422,
+	vooDA_planar_444,
+	vooDA_planar_410,
+	vooDA_planar_411,
+	vooDA_uyvy,
+	vooDA_yuyv,
+	vooDA_yuy2,
+	vooDA_nv12,
+	vooDA_v210,
+	vooDA_interleaved_410,
+	vooDA_interleaved_411,
+	vooDA_reserved0,
+	vooDA_interleaved_422,
+	vooDA_interleaved_444,
+	vooDA_single,
+	vooDA_singleDouble,
+	vooDA_singleFloat,
+	vooDA_planar_420double,
+	vooDA_planar_422double,
+	vooDA_planar_444double,
+	vooDA_planar_410double,
+	vooDA_planar_411double,
+	vooDA_planar_420float,
+	vooDA_planar_422float,
+	vooDA_planar_444float,
+	vooDA_planar_410float,
+	vooDA_planar_411float,
+	vooDA_rgb565,
+	vooDA_rgb555,
+	vooDA_r210,
+	vooDA_v410,
+	vooDA_yuv10,
+	vooNumDataArrangements
 }
 
 
@@ -96,25 +96,25 @@ pub enum voo_dataArrangement_t {
 #[allow(non_snake_case)] 
 pub enum voo_channelOrder_t
 {
-    vooChannelOrder_Unknown = -1,
+	vooChannelOrder_Unknown = -1,
 
-    vooCO_c123,
-    vooCO_c231,
-    vooCO_c312,
+	vooCO_c123,
+	vooCO_c231,
+	vooCO_c312,
 
-    vooCO_c213,
-    vooCO_c321,
-    vooCO_c132,
+	vooCO_c213,
+	vooCO_c321,
+	vooCO_c132,
 
-    vooCO_c123x,
-    vooCO_c231x,
-    vooCO_c312x,
+	vooCO_c123x,
+	vooCO_c231x,
+	vooCO_c312x,
 
-    vooCO_c213x,
-    vooCO_c321x,
-    vooCO_c132x,
+	vooCO_c213x,
+	vooCO_c321x,
+	vooCO_c132x,
 
-    vooNumChannelOrders
+	vooNumChannelOrders
 }
 
 
@@ -125,39 +125,39 @@ pub enum voo_channelOrder_t
 #[repr(C)]
 pub struct voo_sequence_t {
 
-    pub filename: *const c_char,
+	pub filename: *const c_char,
 
-    // video resolution
-    pub width: c_int,
-    pub height: c_int,
+	// video resolution
+	pub width: c_int,
+	pub height: c_int,
 
-    // frames per seconds
-    pub fps: c_double,
+	// frames per seconds
+	pub fps: c_double,
 
-    // Color space, such as YUV, RGB etc.
-    pub colorSpace: voo_colorSpace_t,
+	// Color space, such as YUV, RGB etc.
+	pub colorSpace: voo_colorSpace_t,
 
-    // How the channels are packed or interleaved
-    arrangement: voo_dataArrangement_t,
+	// How the channels are packed or interleaved
+	arrangement: voo_dataArrangement_t,
 
-    // The order in which color channels are written
-    channel_order: voo_channelOrder_t,
+	// The order in which color channels are written
+	channel_order: voo_channelOrder_t,
 
-    // size in bytes of a single video frame in native format
-    framesize: c_uint,
+	// size in bytes of a single video frame in native format
+	framesize: c_uint,
 
-    // Bits per channel is normally 8 or 10-16 (valid bit depths are 1-16) (if integer)
-    bitsPerChannel: c_int,
+	// Bits per channel is normally 8 or 10-16 (valid bit depths are 1-16) (if integer)
+	bitsPerChannel: c_int,
 
-    // Whether the video shall be played upside down
-    b_flipped: c_int,
-    // Whether 16bit words shall be byte-swapped
-    b_toggle_endian: c_int,
-    // Whether the values (if integer) shall be treated as signed integers
-    b_signed: c_int,
+	// Whether the video shall be played upside down
+	b_flipped: c_int,
+	// Whether 16bit words shall be byte-swapped
+	b_toggle_endian: c_int,
+	// Whether the values (if integer) shall be treated as signed integers
+	b_signed: c_int,
 
 
-    reserved: [c_char; 32],
+	reserved: [c_char; 32],
 
 }
 
@@ -169,15 +169,15 @@ pub struct voo_sequence_t {
 #[repr(C)]
 pub struct voo_app_info_t {
 
-    // a handle to vooya's current window (what it is, is platform dependent)
-    p_handle: *const c_void,
+	// a handle to vooya's current window (what it is, is platform dependent)
+	p_handle: *const c_void,
 
-    // to trigger vooya to a reload a frame, use these like:
-    //     p_app_info.pf_trigger_reload( app_info.p_reload_cargo )
-    // note that this should happen not too often.
-    p_reload_cargo: *const c_void,
+	// to trigger vooya to a reload a frame, use these like:
+	//     p_app_info.pf_trigger_reload( app_info.p_reload_cargo )
+	// note that this should happen not too often.
+	p_reload_cargo: *const c_void,
 	pf_trigger_reload: extern fn(p_reload_cargo: *const c_void) -> c_int,
-    
+	
 	reserved: [c_char; 32],
 }
 
@@ -191,23 +191,23 @@ pub struct voo_app_info_t {
 #[repr(C)]
 pub struct voo_video_frame_metadata_t {
 
-    // user data you might have provided in voo_describe( ... ) as voo_plugin_t::p_user
-    p_user: *const c_void,
+	// user data you might have provided in voo_describe( ... ) as voo_plugin_t::p_user
+	p_user: *const c_void,
 
-    // per-sequence user data you might have provided in voo_plugin_t::on_load_video( ... )
-    p_user_video: *const c_void,
+	// per-sequence user data you might have provided in voo_plugin_t::on_load_video( ... )
+	p_user_video: *const c_void,
 
-    // per-frame user data you might have provided in input_plugin_t::load( ... )
-    p_user_frame: *const c_void,
+	// per-frame user data you might have provided in input_plugin_t::load( ... )
+	p_user_frame: *const c_void,
 
-    p_info: *const voo_sequence_t,  // info about the current sequence
+	p_info: *const voo_sequence_t,  // info about the current sequence
 
-    // frame number, beginning at zero
-    frame_idx: c_uint,
+	// frame number, beginning at zero
+	frame_idx: c_uint,
 
-    flags: c_int,
+	flags: c_int,
 
-    reserved: [c_char; 32],
+	reserved: [c_char; 32],
 
 }
 
@@ -228,10 +228,10 @@ const VOOPerFrameFlag_IsDifference:        i32 = 0x04; // this frame is a differ
 #[allow(dead_code)] 
 #[allow(non_camel_case_types)] 
 enum vooya_callback_type_t {
-    vooCallback_Native,
-    vooCallback_RGBOut,
-    vooCallback_EOTF,
-    vooCallback_Histogram
+	vooCallback_Native,
+	vooCallback_RGBOut,
+	vooCallback_EOTF,
+	vooCallback_Histogram
 }
 
 
@@ -247,15 +247,15 @@ pub struct vooya_callback_t
 	name: *const c_char,        // a user-friendly, descriptive name
 	description: *const c_char, // a more in-depth description
 
-    // Functions vooya will call upon user's (de)selection of this callback (optional)
-    on_select: unsafe extern fn( p_info: *const voo_sequence_t, p_app_info: *const voo_app_info_t, p_user: *const c_void, pp_user_video: *const *mut c_void ) -> (),
-    on_deselect: unsafe extern fn( p_user: *const c_void, p_user_video: *const c_void ) -> (),
+	// Functions vooya will call upon user's (de)selection of this callback (optional)
+	on_select: unsafe extern fn( p_info: *const voo_sequence_t, p_app_info: *const voo_app_info_t, p_user: *const c_void, pp_user_video: *const *mut c_void ) -> (),
+	on_deselect: unsafe extern fn( p_user: *const c_void, p_user_video: *const c_void ) -> (),
 
-    // Flags to signal something to vooya (for future use)
-    flags: i32,
+	// Flags to signal something to vooya (for future use)
+	flags: i32,
 
-    // type determines which callback signature will be called
-    e_type: vooya_callback_type_t,
+	// type determines which callback signature will be called
+	e_type: vooya_callback_type_t,
 
 	// actual callback function (required, see below)
 	method: *const c_void,
@@ -326,7 +326,7 @@ struct input_plugin_t {
 	// Flags to signal something to vooya (for future use)
 	flags: i32,
 
-    reserved1: [c_char; 8],
+	reserved1: [c_char; 8],
 
 	// If the input is file-based, responsible will be called with the file name and the
 	// first sixteen bytes of data, which e.g. might contain magic data. p_user is
@@ -394,8 +394,8 @@ struct input_plugin_t {
 //	void (*cb_seq_len_changed)( void (*seq_len_callback)( void *p_vooya_ctx, unsigned int new_len ), void *p_vooya_ctx );
 	cb_seq_len_changed: unsafe extern fn( seq_len_callback: unsafe extern fn( p_vooya_ctx: *const c_void, new_len: c_uint ) -> (), p_vooya_ctx: *const c_void ) -> (),
 
-    reserved2: [c_char; 32],
-} 
+	reserved2: [c_char; 32],
+}
 
 
 
@@ -430,7 +430,7 @@ pub struct voo_plugin_t
 
 	// plugin's input capabilities. See input_plugin_t above.
 	input: input_plugin_t
-} 
+}
 
 
 
@@ -489,22 +489,22 @@ pub unsafe extern fn twizzle( p_data: *mut voo_target_space_t, p_metadata: *cons
 {
 	let ref p_meta = *p_metadata;
 	let ref p_seq_info = *(p_meta.p_info);
-    
+
 	if 0 != (p_meta.flags & VOOPerFrameFlag_IsFromCache) { 
-        return;
+		return;
 	}
 
-    for y in 0..p_seq_info.height {
+	for y in 0..p_seq_info.height {
 
-        for x in 0..p_seq_info.width {
+		for x in 0..p_seq_info.width {
   
-  			let ref mut p: voo_target_space_t = *p_data.offset( (x + p_seq_info.width * y) as isize );
-            let luma : i32 = (130 * p.r as i32 + 256 * p.g as i32 + 50 * p.b as i32) >> 8;
+			let ref mut p: voo_target_space_t = *p_data.offset( (x + p_seq_info.width * y) as isize );
+			let luma : i32 = (130 * p.r as i32 + 256 * p.g as i32 + 50 * p.b as i32) >> 8;
 			p.r = std::cmp::min( 255, luma ) as u8;
 			p.g = std::cmp::min( 255, luma ) as u8;
 			p.b = std::cmp::min( 255, luma ) as u8;
-        }
-    }
+		}
+	}
 }
 
 
