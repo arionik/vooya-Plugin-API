@@ -45,9 +45,9 @@
 		NSRect frame = [_vooya frame];
 		frame = NSMakeRect( frame.origin.x - 20, frame.origin.y - 20, 280, 120 );
 		_hud_window = [[NSPanel alloc] initWithContentRect:frame
-												 styleMask:NSHUDWindowMask | NSUtilityWindowMask | NSTitledWindowMask | NSResizableWindowMask
-												   backing:NSBackingStoreBuffered
-													 defer:YES];
+							 styleMask:NSHUDWindowMask | NSUtilityWindowMask | NSTitledWindowMask | NSResizableWindowMask
+							   backing:NSBackingStoreBuffered
+							     defer:YES];
 
 		// route user input to vooya ...
 		[_hud_window makeFirstResponder:self.vooya];
@@ -71,15 +71,15 @@
 		// make it fit into the (resizeable) window
 		[_slider setTranslatesAutoresizingMaskIntoConstraints:NO];
 		[NSLayoutConstraint activateConstraints:[NSLayoutConstraint
-												 constraintsWithVisualFormat:@"H:|-[_slider]-|"
-												 options:0
-												 metrics:nil
-												 views:NSDictionaryOfVariableBindings(_slider)]];
+							constraintsWithVisualFormat:@"H:|-[_slider]-|"
+									    options:0
+									    metrics:nil
+									      views:NSDictionaryOfVariableBindings(_slider)]];
 		[NSLayoutConstraint activateConstraints:[NSLayoutConstraint
-												 constraintsWithVisualFormat:@"V:|-[_slider]-|"
-												 options:0
-												 metrics:nil
-												 views:NSDictionaryOfVariableBindings(_slider)]];
+							 constraintsWithVisualFormat:@"V:|-[_slider]-|"
+									     options:0
+									     metrics:nil
+									       views:NSDictionaryOfVariableBindings(_slider)]];
 	});
 }
 
