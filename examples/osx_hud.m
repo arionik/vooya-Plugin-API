@@ -2,7 +2,7 @@
 #import <Cocoa/Cocoa.h>
 #include "../voo_plugin.h"
 
-// (compile with) clang -dynamiclib plugin.m -o plugin_osx.dylib -framework Cocoa
+// (compile with) clang -dynamiclib -ggdb osx_hud.m -o osx_hud.dylib -framework Cocoa
 
 
 // This class handles our small HUD window
