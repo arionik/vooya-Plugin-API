@@ -120,6 +120,8 @@ typedef enum
 	vooDA_r210,
 	vooDA_v410,
 	vooDA_yuv10,
+	vooDA_p010,
+	vooDA_p016,
 	vooNumDataArrangements
 } voo_dataArrangement_t;
 
@@ -393,7 +395,12 @@ typedef struct {
 	// will change. Note that p_vooya_ctx must not be altered and is valid only as long as this input is bound.
 	void (*cb_seq_len_changed)( void (*seq_len_callback)( void *p_vooya_ctx, unsigned int new_len ), void *p_vooya_ctx );
 
-	char reserved2[4*sizeof(void*)];
+	// called by vooya when "settings" menu entry is clicked. May be NULL.
+	// This callback will override the on_settings in voo_plugin_t if available.
+	// That difference is important on macOS. Here, you get the per-sequence user data.
+	void (*on_settings)( void *p_user_seq );
+
+	char reserved2[3*sizeof(void*)];
 
 } input_plugin_t;
 
@@ -421,7 +428,12 @@ typedef struct
 	// called by vooya before the plugin is unloaded
 	void (*on_unload_plugin)( void *p_user );
 
-	char reserved1[6*sizeof(void*)];
+	// called by vooya when "settings" menu entry is clicked. May be NULL.
+	// This callback will not be called if an input of this plugin is active
+	// that has a non-null on_settings. That difference is important on macOS.
+	void (*on_settings)( void *p_user );
+
+	char reserved1[5*sizeof(void*)];
 
 	// the plugin's callback functions
 	vooya_callback_t callbacks[10];
