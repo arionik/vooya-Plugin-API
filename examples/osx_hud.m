@@ -45,7 +45,7 @@
 		NSRect frame = [_vooya frame];
 		frame = NSMakeRect( frame.origin.x - 20, frame.origin.y - 20, 280, 120 );
 		_hud_window = [[NSPanel alloc] initWithContentRect:frame
-							 styleMask:NSHUDWindowMask | NSUtilityWindowMask | NSTitledWindowMask | NSResizableWindowMask
+							 styleMask:NSWindowStyleMaskHUDWindow | NSWindowStyleMaskUtilityWindow | NSWindowStyleMaskTitled | NSWindowStyleMaskResizable
 							   backing:NSBackingStoreBuffered
 							     defer:YES];
 
