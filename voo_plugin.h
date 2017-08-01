@@ -27,7 +27,7 @@
 */
 
 
-#define VOO_PLUGIN_API_VERSION 2
+#define VOO_PLUGIN_API_VERSION 3
 
 #ifdef _WIN32
 	#include <wchar.h>
@@ -161,6 +161,10 @@ typedef struct {
 	// note that this should happen not too often.
 	void *p_reload_cargo;
 	int (*pf_trigger_reload)( void* );
+
+	// send a message to the console window in vooya
+	void *p_message_cargo;
+	void (*pf_console_message)( void*, const char* );
 
 	char reserved[4*sizeof(void*)];
 
