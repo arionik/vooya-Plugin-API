@@ -141,8 +141,8 @@ VP_API void voo_describe( voo_plugin_t *p_plugin )
 	// plugin main properties
 	p_plugin->name = "Zoneplate";
 	p_plugin->description = "This is a plugin for vooya demoing input from \"nowhere\".";
-	p_plugin->copyright = "\n\xA9 2016 Arion Neddens";
-	p_plugin->version = "\nver1.0";
+	p_plugin->copyright = "(c) 2017 Arion Neddens";
+	p_plugin->version = "ver1.0";
 
 	// p_user points to static data we need everywhere.
 	p_plugin->p_user = &my_context;
