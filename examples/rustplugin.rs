@@ -7,13 +7,13 @@
 use std::os::raw::{c_void,c_char,c_uchar,c_int,c_uint,c_double};
 
 
-const VOO_PLUGIN_API_VERSION: i32 = 2;
+const VOO_PLUGIN_API_VERSION: i32 = 3;
 
 
 // display pixel data type
 #[allow(dead_code)]
-#[allow(non_camel_case_types)] 
-#[cfg(target_os = "macos")] 
+#[allow(non_camel_case_types)]
+#[cfg(target_os = "macos")]
 #[repr(C)]
 pub struct voo_target_space_t
 {
@@ -23,8 +23,8 @@ pub struct voo_target_space_t
 	b: c_uchar,
 }
 #[allow(dead_code)]
-#[allow(non_camel_case_types)] 
-#[cfg(not(target_os = "macos"))] 
+#[allow(non_camel_case_types)]
+#[cfg(not(target_os = "macos"))]
 #[repr(C)]
 pub struct voo_target_space_t
 {
@@ -36,7 +36,7 @@ pub struct voo_target_space_t
 
 
 #[allow(dead_code)]
-#[allow(non_camel_case_types)] 
+#[allow(non_camel_case_types)]
 pub enum voo_colorSpace_t {
 	vooColorSpace_Unknown = -1,
 	vooCS_YUV,
@@ -50,8 +50,8 @@ pub enum voo_colorSpace_t {
 }
 
 #[allow(dead_code)]
-#[allow(non_camel_case_types)] 
-#[allow(non_snake_case)] 
+#[allow(non_camel_case_types)]
+#[allow(non_snake_case)]
 pub enum voo_dataArrangement_t {
 	vooDataArrangement_Unknown = -1,
 	vooDA_planar_420,
@@ -87,13 +87,15 @@ pub enum voo_dataArrangement_t {
 	vooDA_r210,
 	vooDA_v410,
 	vooDA_yuv10,
+	vooDA_p010,
+	vooDA_p016,
 	vooNumDataArrangements
 }
 
 
 #[allow(dead_code)]
-#[allow(non_camel_case_types)] 
-#[allow(non_snake_case)] 
+#[allow(non_camel_case_types)]
+#[allow(non_snake_case)]
 pub enum voo_channelOrder_t
 {
 	vooChannelOrder_Unknown = -1,
@@ -120,8 +122,8 @@ pub enum voo_channelOrder_t
 
 
 #[allow(dead_code)]
-#[allow(non_camel_case_types)] 
-#[allow(non_snake_case)] 
+#[allow(non_camel_case_types)]
+#[allow(non_snake_case)]
 #[repr(C)]
 pub struct voo_sequence_t {
 
@@ -164,8 +166,8 @@ pub struct voo_sequence_t {
 
 // structure vooya gives you in on_load_video( ... ).
 #[allow(dead_code)]
-#[allow(non_camel_case_types)] 
-#[allow(non_snake_case)] 
+#[allow(non_camel_case_types)]
+#[allow(non_snake_case)]
 #[repr(C)]
 pub struct voo_app_info_t {
 
@@ -178,6 +180,10 @@ pub struct voo_app_info_t {
 	p_reload_cargo: *const c_void,
 	pf_trigger_reload: extern fn(p_reload_cargo: *const c_void) -> c_int,
 
+	// send a message to the console window in vooya
+	p_message_cargo: *const c_void,
+	pf_console_message: extern fn(p_message_cargo: *const c_void, message: *const c_char ) -> c_void,
+
 	reserved: [c_char; 32],
 }
 
@@ -186,8 +192,8 @@ pub struct voo_app_info_t {
 
 // Structure you get in per-frame callback functions.
 #[allow(dead_code)]
-#[allow(non_camel_case_types)] 
-#[allow(non_snake_case)] 
+#[allow(non_camel_case_types)]
+#[allow(non_snake_case)]
 #[repr(C)]
 pub struct voo_video_frame_metadata_t {
 
@@ -224,8 +230,8 @@ const VOOPerFrameFlag_IsDifference:        i32 = 0x04; // this frame is a differ
 //
 // This struct shall contain user-defined callback functions along with some metadata.
 // First the callback types:
-#[allow(dead_code)] 
-#[allow(non_camel_case_types)] 
+#[allow(dead_code)]
+#[allow(non_camel_case_types)]
 enum vooya_callback_type_t {
 	vooCallback_Native,
 	vooCallback_RGBOut,
@@ -234,8 +240,8 @@ enum vooya_callback_type_t {
 }
 
 
-#[allow(dead_code)] 
-#[allow(non_camel_case_types)] 
+#[allow(dead_code)]
+#[allow(non_camel_case_types)]
 #[repr(C)]
 pub struct vooya_callback_t
 {
@@ -304,9 +310,9 @@ pub struct vooya_callback_t
 // INPUT DESCRIPTION STRUCT
 //
 // Container to provide custom input to vooya from file or from "nowhere".
-#[allow(dead_code)] 
+#[allow(dead_code)]
 #[allow(non_camel_case_types)]
-#[allow(non_snake_case)] 
+#[allow(non_snake_case)]
 #[repr(C)]
 struct input_plugin_t {
 
@@ -314,7 +320,7 @@ struct input_plugin_t {
 	                            // at most 63 chars in length, ANSI without any whitespace
 	name: *const c_char,        // a user-friendly, descriptive name (mandatory)
 	description: *const c_char, // a more in-depth description
-	
+
 	// If b_fileBased is TRUE, vooya will ask for file suffixes supported by this input,
 	// call file_suffixes( ... ), responsible( ... ) and open( ... ), and will include
 	// this input in the file open dialog. If b_fileBased is FALSE, an entry for this input
@@ -383,7 +389,7 @@ struct input_plugin_t {
 	file_suffixes: unsafe extern fn( idx: c_int, pp_suffix: *const *mut c_char, p_user_seq: *const c_void ) -> c_int,
 
 	// Called by vooya to enumerate meta information tags about the video you provide.
-	// idx is counting up for each call as long as TRUE is return. Return FALSE to finish the 
+	// idx is counting up for each call as long as TRUE is return. Return FALSE to finish the
 	// enumeration. "buffer_k" char[64] and shall take a key, "buffer_v" char[1024] and
 	// shall take a corresponding value.
 	get_meta: unsafe extern fn( idx: c_int, buffer_k: *const c_char, buffer_v: *const c_char, p_user_seq: *const c_void ) -> c_int,
@@ -399,7 +405,7 @@ struct input_plugin_t {
 
 
 // Most important structure, this describes the plugin
-#[allow(dead_code)] 
+#[allow(dead_code)]
 #[allow(non_camel_case_types)]
 #[repr(C)]
 pub struct voo_plugin_t
@@ -465,7 +471,7 @@ const CB_DESCR: &'static [u8] = b"Fun Function to show Rust bindings.\0";
 pub unsafe extern fn voo_describe( p_plugin: *mut voo_plugin_t )
 {
 	let ref mut p = *p_plugin;
-	
+
 	p.voo_version = VOO_PLUGIN_API_VERSION;
 	p.name = NAME.as_ptr() as *const c_char;
 	p.description = DESCR.as_ptr() as *const c_char;
@@ -477,7 +483,7 @@ pub unsafe extern fn voo_describe( p_plugin: *mut voo_plugin_t )
 	p.callbacks[0].description = CB_DESCR.as_ptr() as *const c_char;
 	p.callbacks[0].e_type = vooya_callback_type_t::vooCallback_RGBOut;
 	p.callbacks[0].method = twizzle as *const c_void;
-	
+
 }
 
 
@@ -489,14 +495,14 @@ pub unsafe extern fn twizzle( p_data: *mut voo_target_space_t, p_metadata: *cons
 	let ref p_meta = *p_metadata;
 	let ref p_seq_info = *(p_meta.p_info);
 
-	if 0 != (p_meta.flags & VOOPerFrameFlag_IsFromCache) { 
+	if 0 != (p_meta.flags & VOOPerFrameFlag_IsFromCache) {
 		return;
 	}
 
 	for y in 0..p_seq_info.height {
 
 		for x in 0..p_seq_info.width {
-  
+
 			let ref mut p: voo_target_space_t = *p_data.offset( (x + p_seq_info.width * y) as isize );
 			let luma : i32 = (130 * p.r as i32 + 256 * p.g as i32 + 50 * p.b as i32) >> 8;
 			p.r = std::cmp::min( 255, luma ) as u8;
@@ -505,8 +511,3 @@ pub unsafe extern fn twizzle( p_data: *mut voo_target_space_t, p_metadata: *cons
 		}
 	}
 }
-
-
-
-
-
