@@ -213,7 +213,7 @@ pub struct voo_video_frame_metadata_t {
 
 	// Tells vooya to display text for the given frame at the given position x,y relative to the video resolution.
 	// This function can be called from within an on_frame_done callback (and only from there)
-	// "flags" is not yet used.
+	// For "flags" see vooPluginTextFlag... below.
 	pfun_add_text: extern fn( p_cargo: *const c_void, text: *const c_char, flags: c_int, x: c_int, y: c_int ) -> c_void,
 	// Tells vooya to clear all text for the given frame.
 	// This function can be called from within an on_frame_done callback (and only from there)
@@ -224,6 +224,13 @@ pub struct voo_video_frame_metadata_t {
 
 	reserved: [c_char; 32],
 }
+
+#[allow(dead_code)]
+#[allow(non_upper_case_globals)]
+const vooPluginTextFlag_AlignRight:  i32 = 0x01;
+#[allow(dead_code)]
+#[allow(non_upper_case_globals)]
+const vooPluginTextFlag_AlignCenter: i32 = 0x02;
 
 #[allow(dead_code)]
 #[allow(non_upper_case_globals)]
@@ -579,10 +586,10 @@ pub unsafe extern fn twizzle( p_data: *mut voo_target_space_t, p_metadata: *cons
 		}
 	}
 
-	let formatted_number = format!("Rust did frame {:03}.", p_meta.frame_idx );
+	let formatted_number = format!("Rust did frame {:03},\nça nous amuse.", p_meta.frame_idx );
 	let plugin_message_c = CString::new(formatted_number).unwrap();
 	(p_meta.pfun_add_text)( p_meta.p_textfun_cargo,
 							  plugin_message_c.as_ptr(),
-							  0/* no flags so far */,
-							  20, p_seq_info.height-40 );
+							  vooPluginTextFlag_AlignCenter,
+							  p_seq_info.width/2, p_seq_info.height-40 );
 }

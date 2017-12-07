@@ -231,12 +231,15 @@ typedef struct {
 	// frame number, beginning at zero
 	unsigned int frame_idx;
 
+#define vooPluginTextFlag_AlignRight  0x01
+#define vooPluginTextFlag_AlignCenter 0x02
 	// Tells vooya to display text for the given frame at the given position x,y relative to the video resolution.
 	// This function can be called from within an on_frame_done callback (and only from there)
-	// "flags" is not yet used.
+	// For "flags" see above, use p_textfun_cargo for "p_cargo"
 	void (*pfun_add_text)( void *p_cargo, const vooChar_t *text, int flags, int x, int y );
 	// Tells vooya to clear all text for the given frame.
 	// This function can be called from within an on_frame_done callback (and only from there)
+	// Use p_textfun_cargo for "p_cargo"
 	void (*pfun_clear_all)(void *p_cargo);
 	void *p_textfun_cargo;
 
@@ -266,6 +269,8 @@ typedef struct {
 	int x,y; // position relative to top, left
 
 	voo_video_frame_metadata_t *p_metadata;
+
+	unsigned int thread_id; // which thread is calling
 
 } voo_diff_t;
 
