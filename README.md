@@ -13,6 +13,8 @@ Callback with the raw video data for each frame
 Callback with the rendered data in RGB right before display
 + **EOTF**
 Add custom transfer functions to vooya's existing ones
++ **Diff View**
+Pixelwise callback function for difference views (not shown below)
 <p align="center">
 	<img src="/../master/plugin_api.jpg?raw=true" width="600">
 </p>
