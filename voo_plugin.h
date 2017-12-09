@@ -27,7 +27,7 @@
 */
 
 
-#define VOO_PLUGIN_API_VERSION 3
+#define VOO_PLUGIN_API_VERSION 4
 
 #ifdef _WIN32
 	#include <wchar.h>
@@ -36,6 +36,7 @@
 	#define voo_strcmp wcscmp
 	#define voo_strcpy wcscpy
 	#define voo_fopen _wfopen
+	#define voo_snprintf swprintf
 	#define _v(v)L##v
 	#define VP_API __declspec(dllexport) 
 #else
@@ -43,6 +44,7 @@
 	#define voo_strlen strlen
 	#define voo_strcmp strcmp
 	#define voo_strcpy strcpy
+	#define voo_snprintf snprintf
 	#define voo_fopen fopen
 	#define _v(v)v
 	#define VP_API
@@ -229,6 +231,18 @@ typedef struct {
 	// frame number, beginning at zero
 	unsigned int frame_idx;
 
+#define vooPluginTextFlag_AlignRight  0x01
+#define vooPluginTextFlag_AlignCenter 0x02
+	// Tells vooya to display text for the given frame at the given position x,y relative to the video resolution.
+	// This function can be called from within an on_frame_done callback (and only from there)
+	// For "flags" see above, use p_textfun_cargo for "p_cargo"
+	void (*pfun_add_text)( void *p_cargo, const vooChar_t *text, int flags, int x, int y );
+	// Tells vooya to clear all text for the given frame.
+	// This function can be called from within an on_frame_done callback (and only from there)
+	// Use p_textfun_cargo for "p_cargo"
+	void (*pfun_clear_all)(void *p_cargo);
+	void *p_textfun_cargo;
+
 #define VOOPerFrameFlag_YouAlreadyProcessed 0x01 // this frame has already been processed by you
 #define VOOPerFrameFlag_IsFromCache         0x02 // this one comes from RGB-display cache
 #define VOOPerFrameFlag_IsDifference        0x04 // this frame is a difference frame
@@ -239,6 +253,27 @@ typedef struct {
 } voo_video_frame_metadata_t;
 
 
+// structure that is passed to pixel-wise difference callbacks.
+// represents one pixel in the respective frame.
+typedef struct {
+
+	// Pixels a and b from sequence A and B, component 1,2,3
+	// and data type (inferred from voo_sequence_t::p_info)
+	union{ unsigned int c1_a; double c1_ad; };
+	union{ unsigned int c2_a; double c2_ad; };
+	union{ unsigned int c3_a; double c3_ad; };
+	union{ unsigned int c1_b; double c1_bd; };
+	union{ unsigned int c2_b; double c2_bd; };
+	union{ unsigned int c3_b; double c3_bd; };
+
+	int x,y; // position relative to top, left
+
+	voo_video_frame_metadata_t *p_metadata;
+
+	unsigned int thread_id; // which thread is calling
+
+} voo_diff_t;
+
 
 // PLUGIN CALLBACK FUNCTION STRUCT
 //
@@ -248,7 +283,8 @@ typedef enum {
 	vooCallback_Native,
  	vooCallback_RGBOut,
  	vooCallback_EOTF,
- 	vooCallback_Histogram
+ 	vooCallback_Histogram,
+	vooCallback_Diff,
 } vooya_callback_type_t;
 
 // And the actual callback description structure:
@@ -264,6 +300,10 @@ typedef struct
 	// Functions vooya will call upon user's (de)selection of this callback (optional)
 	void (*on_select)( voo_sequence_t *p_info, voo_app_info_t *p_app_info, void *p_user, void **pp_user_video );
 	void (*on_deselect)( void *p_user, void *p_user_video );
+
+	// this function will be called when a frame has completed processing and is about to be displayed.
+	// May be called multiple times for the same frame.
+	void (*on_frame_done)( voo_video_frame_metadata_t * );
 
 	// Flags to signal something to vooya (for future use)
 	int flags;
@@ -306,6 +346,13 @@ typedef struct
 		// length is (1<<bit_depth)-1 (floating point data is put into 12bits).
 		void (*method_histogram)( unsigned int *p_h1, unsigned int *p_h2,
 					unsigned int *p_h3, voo_video_frame_metadata_t *p_metadata );
+
+		// For type == vooCallback_Diff:
+		// Called by vooya when two sequences are being compared.
+		// This method is called pixel-wise and thus not the fastest. Note that multiple threads
+		// (all for the same frame) might call this function concurrently.
+		// see also voo_diff_t
+		void (*method_diff)( voo_diff_t *p_diff_pixel );
 	};
 	
 } vooya_callback_t;

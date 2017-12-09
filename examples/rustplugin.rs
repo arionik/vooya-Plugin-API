@@ -4,10 +4,10 @@
 // on windows:
 //  rustc --crate-type cdylib -C opt-level=3 -C link-args=-s  -C prefer-dynamic rustplugin.rs
 
-use std::os::raw::{c_void,c_char,c_uchar,c_int,c_uint,c_double};
+use std::os::raw::{c_void,c_char,c_uchar,c_int,c_uint,c_ulong,c_double};
+use std::ffi::CString;
 
-
-const VOO_PLUGIN_API_VERSION: i32 = 3;
+const VOO_PLUGIN_API_VERSION: i32 = 4;
 
 
 // display pixel data type
@@ -211,10 +211,26 @@ pub struct voo_video_frame_metadata_t {
 	// frame number, beginning at zero
 	frame_idx: c_uint,
 
+	// Tells vooya to display text for the given frame at the given position x,y relative to the video resolution.
+	// This function can be called from within an on_frame_done callback (and only from there)
+	// For "flags" see vooPluginTextFlag... below.
+	pfun_add_text: extern fn( p_cargo: *const c_void, text: *const c_char, flags: c_int, x: c_int, y: c_int ) -> c_void,
+	// Tells vooya to clear all text for the given frame.
+	// This function can be called from within an on_frame_done callback (and only from there)
+	pfun_clear_all: extern fn( p_cargo: *const c_void ) -> c_void,
+	p_textfun_cargo: *const c_void,
+
 	flags: c_int,
 
 	reserved: [c_char; 32],
 }
+
+#[allow(dead_code)]
+#[allow(non_upper_case_globals)]
+const vooPluginTextFlag_AlignRight:  i32 = 0x01;
+#[allow(dead_code)]
+#[allow(non_upper_case_globals)]
+const vooPluginTextFlag_AlignCenter: i32 = 0x02;
 
 #[allow(dead_code)]
 #[allow(non_upper_case_globals)]
@@ -226,6 +242,54 @@ const VOOPerFrameFlag_IsFromCache:         i32 = 0x02; // this one comes from RG
 #[allow(non_upper_case_globals)]
 const VOOPerFrameFlag_IsDifference:        i32 = 0x04; // this frame is a difference frame
 
+
+
+// structure that is passed to pixel-wise difference callbacks.
+// represents one pixel in the respective frame.
+#[allow(dead_code)]
+#[allow(non_camel_case_types)]
+#[allow(non_snake_case)]
+#[repr(C)]
+pub struct voo_diff_t_int
+{
+	// Pixels a and b from sequence A and B, component 1,2,3
+	// and data type (inferred from voo_sequence_t::p_info)
+	c1_a: c_ulong,
+	c2_a: c_ulong,
+	c3_a: c_ulong,
+	c1_b: c_ulong,
+	c2_b: c_ulong,
+	c3_b: c_ulong,
+
+	x: c_int,
+	y: c_int, // position relative to top, left
+
+	p_metadata: *const voo_video_frame_metadata_t
+}
+
+#[allow(dead_code)]
+#[allow(non_camel_case_types)]
+#[allow(non_snake_case)]
+#[repr(C)]
+pub struct voo_diff_t_float
+{
+	// Pixels a and b from sequence A and B, component 1,2,3
+	// and data type (inferred from voo_sequence_t::p_info)
+	c1_a: c_double,
+	c2_a: c_double,
+	c3_a: c_double,
+	c1_b: c_double,
+	c2_b: c_double,
+	c3_b: c_double,
+
+	x: c_int,
+	y: c_int, // position relative to top, left
+
+	p_metadata: *const voo_video_frame_metadata_t
+
+}
+
+
 // PLUGIN CALLBACK FUNCTION STRUCT
 //
 // This struct shall contain user-defined callback functions along with some metadata.
@@ -236,7 +300,8 @@ enum vooya_callback_type_t {
 	vooCallback_Native,
 	vooCallback_RGBOut,
 	vooCallback_EOTF,
-	vooCallback_Histogram
+	vooCallback_Histogram,
+	vooCallback_Diff,
 }
 
 
@@ -255,6 +320,10 @@ pub struct vooya_callback_t
 	// Functions vooya will call upon user's (de)selection of this callback (optional)
 	on_select: unsafe extern fn( p_info: *const voo_sequence_t, p_app_info: *const voo_app_info_t, p_user: *const c_void, pp_user_video: *const *mut c_void ) -> (),
 	on_deselect: unsafe extern fn( p_user: *const c_void, p_user_video: *const c_void ) -> (),
+
+	// this function will be called when a frame has completed processing and is about to be displayed.
+	// May be called multiple times for the same frame.
+	on_frame_done: extern fn( p_metadata: *const voo_video_frame_metadata_t ) -> c_void,
 
 	// Flags to signal something to vooya (for future use)
 	flags: i32,
@@ -299,6 +368,14 @@ pub struct vooya_callback_t
 	//   method shall be:
 	// unsafe extern fn( p_h1: *const c_uint, p_h2: *const c_uint, p_h3: *const c_uint,
 	//                               p_metadata: *const voo_video_frame_metadata_t ) -> (),
+
+	// For type == vooCallback_Diff:
+	// Called by vooya when two sequences are being compared.
+	// This method is called pixel-wise and thus not the fastest. Note that multiple threads
+	// (all for the same frame) might call this function concurrently.
+	// see also voo_diff_t_...
+	//   method shall be:
+	// unsafe extern fn( p_diff_pixel : *const voo_diff_t ) -> ()
 }
 
 
@@ -396,7 +473,6 @@ struct input_plugin_t {
 
 	// vooya gives you a callback that you might call whenever the sequence's number of frames
 	// will change. Note that p_vooya_ctx must not be altered and is valid only as long as this input is bound.
-//	void (*cb_seq_len_changed)( void (*seq_len_callback)( void *p_vooya_ctx, unsigned int new_len ), void *p_vooya_ctx );
 	cb_seq_len_changed: unsafe extern fn( seq_len_callback: unsafe extern fn( p_vooya_ctx: *const c_void, new_len: c_uint ) -> (), p_vooya_ctx: *const c_void ) -> (),
 
 	reserved2: [c_char; 32],
@@ -487,7 +563,6 @@ pub unsafe extern fn voo_describe( p_plugin: *mut voo_plugin_t )
 }
 
 
-
 // our function which does "something" with an rgb buffer.
 #[no_mangle]
 pub unsafe extern fn twizzle( p_data: *mut voo_target_space_t, p_metadata: *const voo_video_frame_metadata_t )
@@ -510,4 +585,11 @@ pub unsafe extern fn twizzle( p_data: *mut voo_target_space_t, p_metadata: *cons
 			p.b = std::cmp::min( 255, luma ) as u8;
 		}
 	}
+
+	let formatted_number = format!("Rust did frame {:03},\nça nous amuse.", p_meta.frame_idx );
+	let plugin_message_c = CString::new(formatted_number).unwrap();
+	(p_meta.pfun_add_text)( p_meta.p_textfun_cargo,
+							  plugin_message_c.as_ptr(),
+							  vooPluginTextFlag_AlignCenter,
+							  p_seq_info.width/2, p_seq_info.height-40 );
 }
