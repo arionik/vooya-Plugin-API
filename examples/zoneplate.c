@@ -1,6 +1,6 @@
 /*
 
- gamma9.c
+ zoneplate.c
 
  Copyright (c) 2016 Arion Neddens. All rights reserved.
 
