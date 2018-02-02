@@ -445,7 +445,7 @@ typedef struct {
 
 	// vooya gives you a callback that you might call whenever the sequence's number of frames
 	// will change. Note that p_vooya_ctx must not be altered and is valid only as long as this input is bound.
-	void (*cb_seq_len_changed)( void (*seq_len_callback)( void *p_vooya_ctx, unsigned int new_len ), void *p_vooya_ctx );
+	void (*cb_seq_len_changed)( void (*seq_len_callback)( void *p_vooya_ctx, unsigned int new_len ), void *p_vooya_ctx, void *p_user_seq );
 
 	// called by vooya when "settings" menu entry is clicked. May be NULL.
 	// This callback will override the on_settings in voo_plugin_t if available.
