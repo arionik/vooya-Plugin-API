@@ -376,7 +376,8 @@ typedef struct {
 	// In that case, vooya will call open_nowhere( ... ).
 	BOOL b_fileBased;
 
-	// Flags to signal something to vooya (for future use)
+	// Flags to signal something to vooya
+	#define VOOInputFlag_DoNotCache 0x01 // tell vooya not to cache anything
 	int flags;
 
 	char reserved1[8];
