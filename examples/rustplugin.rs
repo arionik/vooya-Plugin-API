@@ -89,6 +89,8 @@ pub enum voo_dataArrangement_t {
 	vooDA_yuv10,
 	vooDA_p010,
 	vooDA_p016,
+	vooDA_interleaved_444float,
+	vooDA_interleaved_444double,
 	vooNumDataArrangements
 }
 

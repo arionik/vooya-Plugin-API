@@ -124,6 +124,8 @@ typedef enum
 	vooDA_yuv10,
 	vooDA_p010,
 	vooDA_p016,
+	vooDA_interleaved444float,
+	vooDA_interleaved444Double,
 	vooNumDataArrangements
 } voo_dataArrangement_t;
 
