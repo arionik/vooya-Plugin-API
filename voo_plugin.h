@@ -261,12 +261,12 @@ typedef struct {
 
 	// Pixels a and b from sequence A and B, component 1,2,3
 	// and data type (inferred from voo_sequence_t::p_info)
-	union{ unsigned int c1_a; double c1_ad; };
-	union{ unsigned int c2_a; double c2_ad; };
-	union{ unsigned int c3_a; double c3_ad; };
-	union{ unsigned int c1_b; double c1_bd; };
-	union{ unsigned int c2_b; double c2_bd; };
-	union{ unsigned int c3_b; double c3_bd; };
+	union{ int c1_a; double c1_ad; };
+	union{ int c2_a; double c2_ad; };
+	union{ int c3_a; double c3_ad; };
+	union{ int c1_b; double c1_bd; };
+	union{ int c2_b; double c2_bd; };
+	union{ int c3_b; double c3_bd; };
 
 	int x,y; // position relative to top, left
 
