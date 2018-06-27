@@ -307,7 +307,8 @@ typedef struct
 	// May be called multiple times for the same frame.
 	void (*on_frame_done)( voo_video_frame_metadata_t * );
 
-	// Flags to signal something to vooya (for future use)
+	// Flags to signal something to vooya
+	#define VOOCallbackFlag_NeedsConsole 0x02 // tell vooya to auto-open its console window
 	int flags;
 
 	// type determines which callback signature will be called
