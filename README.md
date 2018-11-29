@@ -49,3 +49,7 @@ Turn on _Plugin debugging_ in vooya's preferences to get some console output. **
 <p align="right">
 	<img alt="" src="https://www.offminor.de/assets/i/0538e85b56222e01cbb1e6d99f1cd93f_290x290x0x0x290x170@2x.png" width="290">
 </p>
+
+### Best example?
+The MOV/MP4 file reader plugin called [vooPLUS](https://github.com/arionik/vooPLUS).
+
