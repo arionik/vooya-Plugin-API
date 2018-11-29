@@ -47,5 +47,5 @@ Turn on _Plugin debugging_ in vooya's preferences to get some console output. **
 - on **macOS**, make sure you have **clang** installed (XCode command line tools) open a terminal, cd to the root directory and run `./make_osx.sh`
 
 <p align="right">
-	<img alt="" src="http://www.offminor.de/assets/i/6338ed0318370adfd89b7007b9004e41_290x290x0x0x290x170@2x.png" width="290">
+	<img alt="" src="https://www.offminor.de/assets/i/0538e85b56222e01cbb1e6d99f1cd93f_290x290x0x0x290x170@2x.png" width="290">
 </p>
