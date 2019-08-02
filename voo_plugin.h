@@ -312,7 +312,7 @@ typedef struct
 	int flags;
 
 	// type determines which callback signature will be called
-	vooya_callback_type_t type;
+	vooya_callback_type_t cb_type;
 
 	union{
 		// actual callback function (required)
