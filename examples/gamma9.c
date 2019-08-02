@@ -50,6 +50,6 @@ VP_API void voo_describe( voo_plugin_t *p_plugin )
 	p_plugin->callbacks[0].uid = "my.gamma.1";
 	p_plugin->callbacks[0].name = "Gamma .9";
 	p_plugin->callbacks[0].description = "Adds Gamma .9 EOTF";
-	p_plugin->callbacks[0].type = vooCallback_EOTF;
+	p_plugin->callbacks[0].cb_type = vooCallback_EOTF;
 	p_plugin->callbacks[0].method_eotf = my_gamma;
 }

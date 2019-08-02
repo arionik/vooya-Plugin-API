@@ -197,7 +197,7 @@ VP_API void voo_describe( voo_plugin_t *p_plugin )
 	p_plugin->callbacks[0].uid = "voo.osxtest.native_out.1";
 	p_plugin->callbacks[0].name = "Native Noise Adder";
 	p_plugin->callbacks[0].description = "Adds some noise and demonstrates adding a Cocoa HUD panel to vooya.";
-	p_plugin->callbacks[0].type = vooCallback_Native;
+	p_plugin->callbacks[0].cb_type = vooCallback_Native;
 	p_plugin->callbacks[0].method_native = add_noise;
 	p_plugin->callbacks[0].on_select = on_select;
 	p_plugin->callbacks[0].on_deselect = on_deselect;
