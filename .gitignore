@@ -1,6 +1,7 @@
 *.dll
 *.exp
 examples/gamma9.lib
+examples/*.so
 *.lib
 gamma9.obj
 *.obj
