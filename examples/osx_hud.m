@@ -104,8 +104,10 @@
 	if( activate ){
 		[self.vooya addChildWindow:self.hud_window ordered:NSWindowAbove];
 	} else {
-		[self.hud_window close];
-		[self.hud_window release];
+		dispatch_after(DISPATCH_TIME_NOW, dispatch_get_main_queue(), ^{
+			[self.hud_window close];
+			[self.hud_window release];
+		});
 	}
 	b_active = activate;
 }
