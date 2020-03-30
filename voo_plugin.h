@@ -27,7 +27,7 @@
 */
 
 
-#define VOO_PLUGIN_API_VERSION 4
+#define VOO_PLUGIN_API_VERSION 5
 
 #ifdef _WIN32
 	#include <wchar.h>
@@ -190,7 +190,7 @@ typedef struct
 	double fps;
 
 	// Color space, such as YUV, RGB etc.
-	voo_colorSpace_t colorSpace;
+	voo_colorSpace_t color_space;
 
 	// How the channels are packed or interleaved
 	voo_dataArrangement_t arrangement;
@@ -199,10 +199,10 @@ typedef struct
 	voo_channelOrder_t channel_order;
 
 	// size in bytes of a single video frame in native format
-	unsigned int framesize;
+	unsigned int frame_size;
 
 	// Bits per channel is normally 8 or 10-16 (valid bit depths are 1-16) (if integer)
-	int bitsPerChannel;
+	int bits_per_channel;
 
 	// Whether the video shall be played upside down
 	BOOL b_flipped;
@@ -211,7 +211,10 @@ typedef struct
 	// Whether the values (if integer) shall be treated as signed integers
 	BOOL b_signed;
 
-	char reserved[32];
+	// number of frames in sequences
+	unsigned int frame_count;
+
+	char reserved[28];
 
 } voo_sequence_t;
 

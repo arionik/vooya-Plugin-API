@@ -64,10 +64,10 @@ VP_API BOOL in_get_properties( voo_sequence_t *p_info, void *p_user ){
 	p_info->width = width;
 	p_info->height = height;
 	p_info->fps = 50;
-	p_info->colorSpace = vooCS_RGB;
+	p_info->color_space = vooCS_RGB;
 	p_info->arrangement = vooDA_interleaved_444;
 	p_info->channel_order = vooCO_c123;
-	p_info->bitsPerChannel = 8;
+	p_info->bits_per_channel = 8;
 
 	return TRUE;
 }

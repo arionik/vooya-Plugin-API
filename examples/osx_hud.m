@@ -144,7 +144,7 @@ void add_noise( unsigned char *p_data, voo_video_frame_metadata_t *p_metadata ){
 
 	// The value from our slider
 	int value = [osx_plugin value];
-	for( n=0; n<p_seq_info->framesize; n++ ){
+	for( n=0; n<p_seq_info->frame_size; n++ ){
 		int val = p_data[ n ] + scale*rand()%value - value/2;
 		p_data[ n ] = val > 255 ? 255 : val < 0 ? 0 : val;
 	}
