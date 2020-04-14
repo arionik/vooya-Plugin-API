@@ -47,7 +47,11 @@
 	#define voo_snprintf snprintf
 	#define voo_fopen fopen
 	#define _v(v)v
-	#define VP_API
+	#ifdef VOO_PLUGIN_SYMBOLS_HIDDEN
+		#define VP_API  __attribute__ ((visibility ("default")))
+	#else
+		#define VP_API
+	#endif
 #endif
 
 #ifndef __OBJC__
