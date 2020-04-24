@@ -27,7 +27,7 @@
 */
 
 
-#define VOO_PLUGIN_API_VERSION 5
+#define VOO_PLUGIN_API_VERSION 6
 
 #ifdef _WIN32
 	#include <wchar.h>
@@ -261,7 +261,7 @@ typedef struct {
 
 } voo_video_frame_metadata_t;
 
-
+#if 0
 // structure that is passed to pixel-wise difference callbacks.
 // represents one pixel in the respective frame.
 typedef struct {
@@ -282,7 +282,26 @@ typedef struct {
 	unsigned int thread_id; // which thread is calling
 
 } voo_diff_t;
+#else
+// structure that is passed to pixel-wise difference callbacks.
+// represents one pixel in the respective frame.
+typedef struct {
 
+	// Pixel buffer a and b from sequence A and B, component 1,2,3
+	// and data type (inferred from voo_sequence_t::p_info)
+	float *c1_a;
+	float *c2_a;
+	float *c3_a;
+	float *c1_b;
+	float *c2_b;
+	float *c3_b;
+
+	int stride;
+
+	voo_video_frame_metadata_t *p_metadata;
+
+} voo_diff_t;
+#endif
 
 // PLUGIN CALLBACK FUNCTION STRUCT
 //

@@ -248,26 +248,6 @@ const VOOPerFrameFlag_IsDifference:        i32 = 0x04; // this frame is a differ
 
 // structure that is passed to pixel-wise difference callbacks.
 // represents one pixel in the respective frame.
-#[allow(dead_code)]
-#[allow(non_camel_case_types)]
-#[allow(non_snake_case)]
-#[repr(C)]
-pub struct voo_diff_t_int
-{
-	// Pixels a and b from sequence A and B, component 1,2,3
-	// and data type (inferred from voo_sequence_t::p_info)
-	c1_a: c_ulong,
-	c2_a: c_ulong,
-	c3_a: c_ulong,
-	c1_b: c_ulong,
-	c2_b: c_ulong,
-	c3_b: c_ulong,
-
-	x: c_int,
-	y: c_int, // position relative to top, left
-
-	p_metadata: *const voo_video_frame_metadata_t
-}
 
 #[allow(dead_code)]
 #[allow(non_camel_case_types)]
@@ -275,17 +255,16 @@ pub struct voo_diff_t_int
 #[repr(C)]
 pub struct voo_diff_t_float
 {
-	// Pixels a and b from sequence A and B, component 1,2,3
+	// Pixel buufer a and b from sequence A and B, component 1,2,3
 	// and data type (inferred from voo_sequence_t::p_info)
-	c1_a: c_double,
-	c2_a: c_double,
-	c3_a: c_double,
-	c1_b: c_double,
-	c2_b: c_double,
-	c3_b: c_double,
+	c1_a: *c_float,
+	c2_a: *c_float,
+	c3_a: *c_float,
+	c1_b: *c_float,
+	c2_b: *c_float,
+	c3_b: *c_float,
 
-	x: c_int,
-	y: c_int, // position relative to top, left
+	stride: c_int,
 
 	p_metadata: *const voo_video_frame_metadata_t
 
