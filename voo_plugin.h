@@ -208,6 +208,10 @@ typedef struct
 	// Bits per channel is normally 8 or 10-16 (valid bit depths are 1-16) (if integer)
 	int bits_per_channel;
 
+	// Chroma subsampling. Set, but never read by vooya.
+	int chroma_subsampling_hor;
+	int chroma_subsampling_ver;
+
 	// Whether the video shall be played upside down
 	BOOL b_flipped;
 	// Whether 16bit words shall be byte-swapped
