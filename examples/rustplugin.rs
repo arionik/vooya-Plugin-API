@@ -4,27 +4,15 @@
 // on windows:
 //  rustc --crate-type cdylib -C opt-level=3 -C link-args=-s  -C prefer-dynamic rustplugin.rs
 
-use std::os::raw::{c_void,c_char,c_uchar,c_int,c_uint,c_ulong,c_double};
+use std::os::raw::{c_void,c_char,c_uchar,c_int,c_uint,c_double,c_float};
 use std::ffi::CString;
 
-const VOO_PLUGIN_API_VERSION: i32 = 4;
+const VOO_PLUGIN_API_VERSION: i32 = 6;
 
 
 // display pixel data type
 #[allow(dead_code)]
 #[allow(non_camel_case_types)]
-#[cfg(target_os = "macos")]
-#[repr(C)]
-pub struct voo_target_space_t
-{
-	x: c_uchar,
-	r: c_uchar,
-	g: c_uchar,
-	b: c_uchar,
-}
-#[allow(dead_code)]
-#[allow(non_camel_case_types)]
-#[cfg(not(target_os = "macos"))]
 #[repr(C)]
 pub struct voo_target_space_t
 {
@@ -160,8 +148,14 @@ pub struct voo_sequence_t {
 	// Whether the values (if integer) shall be treated as signed integers
 	b_signed: c_int,
 
+	// number of frames in sequences
+	frame_count: c_uint,
 
-	reserved: [c_char; 32],
+	// Chroma subsampling. Set, but never read by vooya.
+	chroma_subsampling_hor: c_int,
+	chroma_subsampling_ver: c_int,
+
+	reserved: [c_char; 20],
 
 }
 
@@ -255,14 +249,14 @@ const VOOPerFrameFlag_IsDifference:        i32 = 0x04; // this frame is a differ
 #[repr(C)]
 pub struct voo_diff_t_float
 {
-	// Pixel buufer a and b from sequence A and B, component 1,2,3
+	// Pixel buffer a and b from sequence A and B, component 1,2,3
 	// and data type (inferred from voo_sequence_t::p_info)
-	c1_a: *c_float,
-	c2_a: *c_float,
-	c3_a: *c_float,
-	c1_b: *c_float,
-	c2_b: *c_float,
-	c3_b: *c_float,
+	c1_a: *mut c_float,
+	c2_a: *mut c_float,
+	c3_a: *mut c_float,
+	c1_b: *mut c_float,
+	c2_b: *mut c_float,
+	c3_b: *mut c_float,
 
 	stride: c_int,
 

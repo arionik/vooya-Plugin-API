@@ -64,17 +64,10 @@
 // display pixel data type
 typedef struct
 {
-#ifdef __APPLE__
-	unsigned char x;
-	unsigned char r;
-	unsigned char g;
-	unsigned char b;
-#else
 	unsigned char b;
 	unsigned char g;
 	unsigned char r;
 	unsigned char x;
-#endif
 } voo_target_space_t;
 
 
@@ -208,10 +201,6 @@ typedef struct
 	// Bits per channel is normally 8 or 10-16 (valid bit depths are 1-16) (if integer)
 	int bits_per_channel;
 
-	// Chroma subsampling. Set, but never read by vooya.
-	int chroma_subsampling_hor;
-	int chroma_subsampling_ver;
-
 	// Whether the video shall be played upside down
 	BOOL b_flipped;
 	// Whether 16bit words shall be byte-swapped
@@ -222,7 +211,11 @@ typedef struct
 	// number of frames in sequences
 	unsigned int frame_count;
 
-	char reserved[28];
+	// Chroma subsampling. Set, but never read by vooya.
+	int chroma_subsampling_hor;
+	int chroma_subsampling_ver;
+
+	char reserved[20];
 
 } voo_sequence_t;
 
@@ -265,28 +258,7 @@ typedef struct {
 
 } voo_video_frame_metadata_t;
 
-#if 0
-// structure that is passed to pixel-wise difference callbacks.
-// represents one pixel in the respective frame.
-typedef struct {
 
-	// Pixels a and b from sequence A and B, component 1,2,3
-	// and data type (inferred from voo_sequence_t::p_info)
-	union{ int c1_a; double c1_ad; };
-	union{ int c2_a; double c2_ad; };
-	union{ int c3_a; double c3_ad; };
-	union{ int c1_b; double c1_bd; };
-	union{ int c2_b; double c2_bd; };
-	union{ int c3_b; double c3_bd; };
-
-	int x,y; // position relative to top, left
-
-	voo_video_frame_metadata_t *p_metadata;
-
-	unsigned int thread_id; // which thread is calling
-
-} voo_diff_t;
-#else
 // structure that is passed to pixel-wise difference callbacks.
 // represents one pixel in the respective frame.
 typedef struct {
@@ -305,7 +277,8 @@ typedef struct {
 	voo_video_frame_metadata_t *p_metadata;
 
 } voo_diff_t;
-#endif
+
+
 
 // PLUGIN CALLBACK FUNCTION STRUCT
 //
