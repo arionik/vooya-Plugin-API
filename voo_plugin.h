@@ -279,7 +279,6 @@ typedef struct {
 } voo_diff_t;
 
 
-
 // PLUGIN CALLBACK FUNCTION STRUCT
 //
 // This struct shall contain user-defined callback functions along with some metadata.
