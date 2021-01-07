@@ -330,11 +330,13 @@ typedef struct
 
 		// For type == vooCallback_Native:
 		// Called by vooya for each video frame with native data before color
-		// conversion to RGB 8bit, and without image adjustments. Can be used to
+		// conversion to display format, and without image adjustments. Can be used to
 		// feed the data outside of vooya. Properties like resolution
 		// and data format are given beforehand in on_load_video( ... ); you can
 		// save them in p_metadata->p_user_video. "p_data" is the image data.
-		void (*method_native)( unsigned char *p_data,
+		// Data format is 32bit float planar, with equal stride for all planes,
+		// but chroma subsampling of the input.
+		void (*method_native)( float *ch1, float *ch2, float *ch3, int stride,
 							  voo_video_frame_metadata_t *p_metadata );
 
 		// For type == vooCallback_EOTF:
