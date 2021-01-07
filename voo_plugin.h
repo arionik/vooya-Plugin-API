@@ -335,7 +335,7 @@ typedef struct
 		// and data format are given beforehand in on_load_video( ... ); you can
 		// save them in p_metadata->p_user_video. "p_data" is the image data.
 		// Data format is 32bit float planar, with equal stride for all planes,
-		// but chroma subsampling of the input.
+		// but same chroma subsampling as the input.
 		void (*method_native)( float *ch1, float *ch2, float *ch3, int stride,
 							  voo_video_frame_metadata_t *p_metadata );
 
