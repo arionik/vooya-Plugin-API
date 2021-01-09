@@ -213,7 +213,7 @@ typedef struct
 	int chroma_subsampling_hor;
 	int chroma_subsampling_ver;
 
-	// char reserved[20];
+	char reserved[20];
 
 } voo_sequence_t;
 
