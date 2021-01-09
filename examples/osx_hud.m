@@ -158,10 +158,12 @@ VP_API void on_select( voo_sequence_t *p_info, voo_app_info_t *p_app_info, void 
 
 	NSLog(@"on_select_native for %s", p_info->filename);
 	OSXHUDPlugin *osx_plugin = [[OSXHUDPlugin alloc] init];
-	[osx_plugin setAppInfo:p_app_info];
 	*pp_user_video = osx_plugin;
-	// show our window
-	[osx_plugin activate:YES];
+	[osx_plugin setAppInfo:p_app_info];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		// show our window
+		[osx_plugin activate:YES];
+	});
 }
 
 // Called when a user deselects "Native Output" in the plugin menu
@@ -170,9 +172,10 @@ VP_API void on_deselect( void *p_user, void *p_user_video ){
 	NSLog(@"on_deselect_native");
 	// when the video window is closed, it is safe to release our HUD
 	OSXHUDPlugin *osx_plugin = (__bridge OSXHUDPlugin *)p_user_video;
-
-	[osx_plugin activate:NO];
-	[osx_plugin release];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[osx_plugin activate:NO];
+		[osx_plugin release];
+	});
 }
 
 VP_API void on_unload_plugin( void *p_user ){
