@@ -128,25 +128,28 @@
 ////////////////////////////////////////////////////////////
 
 // The native callback for adding noise
-void add_noise( unsigned char *p_data, voo_video_frame_metadata_t *p_metadata ){
+void add_noise( float *ch1, float *ch2, float *ch3, int stride, voo_video_frame_metadata_t *p_metadata ){
 
-	int n, scale = 1;
+	int n;
+	float scale = 1.f;
 	voo_sequence_t *p_seq_info = p_metadata->p_info;
 	OSXHUDPlugin *osx_plugin = (__bridge OSXHUDPlugin *)p_metadata->p_user_video;
+	int bits = p_seq_info->bits_per_channel;
+	int max = (1<<bits)-1;
 
 	if( p_metadata->flags & VOOPerFrameFlag_YouAlreadyProcessed )
 		return;
 
 	if( p_metadata->flags & VOOPerFrameFlag_IsDifference ){
-		scale = 10;
+		scale = 10.f;
 		return;
 	}
 
 	// The value from our slider
 	int value = [osx_plugin value];
-	for( n=0; n<p_seq_info->frame_size; n++ ){
-		int val = p_data[ n ] + scale*rand()%value - value/2;
-		p_data[ n ] = val > 255 ? 255 : val < 0 ? 0 : val;
+	for( n=0; n<p_seq_info->height * stride; n++ ){
+		float val = ch1[ n ] + scale*(float)(rand()%value - value/2);
+		ch1[ n ] = val > max ? max : val < 0 ? 0 : val;
 	}
 }
 

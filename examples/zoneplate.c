@@ -50,7 +50,7 @@ const int height = 480;
 // Functions vooya will call when we provide input.
 //////////////////////////////////////////////////////////////////////////
 
-VP_API BOOL in_open_nowhere( voo_app_info_t *p_app_info, void **pp_user ){
+VP_API vooBOOL in_open_nowhere( voo_app_info_t *p_app_info, void **pp_user ){
 	my_plugin_t *p_loader = (my_plugin_t *)*pp_user;
 	p_loader->state = 0.;
 	p_loader->frame = 0;
@@ -59,7 +59,7 @@ VP_API BOOL in_open_nowhere( voo_app_info_t *p_app_info, void **pp_user ){
 
 VP_API void in_close( void *p_user ){}
 
-VP_API BOOL in_get_properties( voo_sequence_t *p_info, void *p_user ){
+VP_API vooBOOL in_get_properties( voo_sequence_t *p_info, void *p_user ){
 
 	p_info->width = width;
 	p_info->height = height;
@@ -76,14 +76,14 @@ VP_API unsigned int in_framecount( void *p_user ){
 	return 360;
 }
 
-VP_API BOOL in_seek( unsigned int frame, void *p_user ){
+VP_API vooBOOL in_seek( unsigned int frame, void *p_user ){
 	my_plugin_t *p_loader = (my_plugin_t *)p_user;
 	p_loader->state = (float)frame/360;
 	p_loader->frame = frame;
 	return TRUE;
 }
 
-VP_API BOOL in_load( unsigned int frame, char *p_buffer, BOOL *pb_skipped, void **pp_frame_user, void *p_user ){
+VP_API vooBOOL in_load( unsigned int frame, char *p_buffer, vooBOOL *pb_skipped, void **pp_frame_user, void *p_user ){
 
 	int x, y, cx, cy;
 	unsigned char *p_rgb;
@@ -117,16 +117,16 @@ VP_API BOOL in_load( unsigned int frame, char *p_buffer, BOOL *pb_skipped, void 
 	return TRUE;
 }
 
-VP_API BOOL in_eof( void *p_user ){
+VP_API vooBOOL in_eof( void *p_user ){
 	my_plugin_t *p_loader = (my_plugin_t *)p_user;
 	return p_loader->frame == 359;
 }
 
-VP_API BOOL in_good( void *p_user ){
+VP_API vooBOOL in_good( void *p_user ){
 	return TRUE;
 }
 
-VP_API BOOL in_reload( void *p_user ){
+VP_API vooBOOL in_reload( void *p_user ){
 	return in_open_nowhere( 0x0, p_user );
 }
 

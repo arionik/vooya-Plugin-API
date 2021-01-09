@@ -325,7 +325,7 @@ pub struct vooya_callback_t
 	// and data format are given beforehand in on_load_video( ... ); you can
 	// save them in p_metadata->p_user_video. "p_data" is the image data.
 	//   method shall be
-	// unsafe extern fn( p_data: *mut c_uchar, p_metadata: *const voo_video_frame_metadata_t ) -> (),
+	// unsafe extern fn( ch1: *mut c_float, ch2: *mut c_float, ch3: *mut c_float, stride: mut c_int, p_metadata: *const voo_video_frame_metadata_t ) -> (),
 
 	// For type == vooCallback_EOTF:
 	// Called by vooya when a lookup-table for the transfer function is being made.
