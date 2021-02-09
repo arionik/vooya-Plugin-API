@@ -35,6 +35,7 @@
 	#define voo_strlen wcslen
 	#define voo_strcmp wcscmp
 	#define voo_strcpy wcscpy
+	#define voo_strncpy wcsncpy
 	#define voo_fopen _wfopen
 	#define voo_snprintf swprintf
 	#define _v(v)L##v
@@ -44,6 +45,7 @@
 	#define voo_strlen strlen
 	#define voo_strcmp strcmp
 	#define voo_strcpy strcpy
+	#define voo_strncpy strncpy
 	#define voo_snprintf snprintf
 	#define voo_fopen fopen
 	#define _v(v)v
