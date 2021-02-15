@@ -37,7 +37,7 @@
 	#define voo_strcpy wcscpy
 	#define voo_strncpy wcsncpy
 	#define voo_fopen _wfopen
-	#define voo_snprintf swprintf
+	#define voo_snprintf _snwprintf
 	#define _v(v)L##v
 	#define VP_API __declspec(dllexport) 
 #else
