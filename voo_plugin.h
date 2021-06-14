@@ -344,7 +344,8 @@ typedef struct
 		// "value" is in the range of 0-1, representing an RGB channel value of input bit
 		// depth ("bits"). "p_user" might be provided by you from within voo_describe(...)
 		// and can be NULL or any custom data. The call of this function happens before
-		// application of brightness, contrast, gamma and exposure user settings.
+		// application of brightness, contrast, gamma and exposure user settings and
+		// after conversion (including gamma) to the target RGB colorspace.
 		double (*method_eotf)( double value, int bits, void *p_user );
 
 		// For type == vooCallback_Histogram:
