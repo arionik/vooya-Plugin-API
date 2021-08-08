@@ -4,7 +4,7 @@
 
  Do not change anything in this file!
 
- Copyright (c) 2016 Arion Neddens. All rights reserved.
+ Copyright (c) 2016-2021 Arion Neddens. All rights reserved.
 
  Permission is hereby granted, free of charge, to any person obtaining
  a copy of this software and associated documentation files (the "Software"),
@@ -264,7 +264,7 @@ typedef struct {
 typedef struct {
 
 	// Pixel buffer a and b from sequence A and B, component 1,2,3
-	// and data type (inferred from voo_sequence_t::p_info)
+	// (original value range, but planar and converted to 32bit float)
 	float *c1_a;
 	float *c2_a;
 	float *c3_a;
