@@ -29,6 +29,12 @@
 
 #define VOO_PLUGIN_API_VERSION 6
 
+#ifdef __cplusplus
+	#define EXTERN_C extern "C"
+#else
+	#define EXTERN_C
+#endif
+
 #ifdef _WIN32
 	#include <wchar.h>
 	typedef wchar_t vooChar_t;
@@ -39,7 +45,7 @@
 	#define voo_fopen _wfopen
 	#define voo_snprintf _snwprintf
 	#define _v(v)L##v
-	#define VP_API __declspec(dllexport) 
+	#define VP_API EXTERN_C __declspec(dllexport)
 #else
 	typedef char vooChar_t;
 	#define voo_strlen strlen
@@ -50,9 +56,9 @@
 	#define voo_fopen fopen
 	#define _v(v)v
 	#ifdef VOO_PLUGIN_SYMBOLS_HIDDEN
-		#define VP_API  __attribute__ ((visibility ("default")))
+		#define VP_API EXTERN_C __attribute__ ((visibility ("default")))
 	#else
-		#define VP_API
+		#define VP_API EXTERN_C
 	#endif
 #endif
 
