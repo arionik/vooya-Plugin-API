@@ -265,12 +265,11 @@ typedef struct {
 } voo_video_frame_metadata_t;
 
 
-// structure that is passed to pixel-wise difference callbacks.
-// represents one pixel in the respective frame.
+// structure that is passed to frame-wise difference callbacks.
 typedef struct {
 
 	// Pixel buffer a and b from sequence A and B, component 1,2,3
-	// (original value range, but planar and converted to 32bit float)
+	// (original value range and subsampling, but planar and converted to 32bit float)
 	float *c1_a;
 	float *c2_a;
 	float *c3_a;
