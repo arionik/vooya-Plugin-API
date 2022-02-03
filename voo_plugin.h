@@ -230,14 +230,14 @@ typedef struct
 	int chroma_subsampling_hor;
 	int chroma_subsampling_ver;
 
-    // narrow signal range
-    int b_narrow;
-    
-    // transfer function
-    voo_transferFunction_t transfer;
-    
-    // max nits
-    float max_nits, min_nits;
+	// narrow signal range
+	int b_narrow;
+	
+	// transfer function
+	voo_transferFunction_t transfer;
+	
+	// max nits
+	float max_nits, min_nits;
     
 	char reserved[4];
 
