@@ -231,7 +231,7 @@ typedef struct
 	int chroma_subsampling_ver;
 
 	// narrow signal range
-	int b_narrow;
+	vooBOOL b_narrow;
 	
 	// transfer function
 	voo_transferFunction_t transfer;
