@@ -4,7 +4,7 @@
 
  Do not change anything in this file!
 
- Copyright (c) 2016-2021 Arion Neddens. All rights reserved.
+ Copyright (c) 2016-2022 Arion Neddens. All rights reserved.
 
  Permission is hereby granted, free of charge, to any person obtaining
  a copy of this software and associated documentation files (the "Software"),
@@ -27,7 +27,7 @@
 */
 
 
-#define VOO_PLUGIN_API_VERSION 6
+#define VOO_PLUGIN_API_VERSION 7
 
 #ifdef __cplusplus
 	#define EXTERN_C extern "C"
@@ -88,6 +88,15 @@ typedef enum {
 	vooCS_YCgCo,
 	vooCS_ICtCp
 } voo_colorSpace_t;
+
+
+typedef enum {
+    vooTF_None,
+    vooTF_bt1886,
+    vooTF_PQ,
+    vooTF_HLG
+} voo_transferFunction_t;
+
 
 typedef enum
 {
@@ -221,7 +230,16 @@ typedef struct
 	int chroma_subsampling_hor;
 	int chroma_subsampling_ver;
 
-	char reserved[20];
+    // narrow signal range
+    int b_narrow;
+    
+    // transfer function
+    voo_transferFunction_t transfer;
+    
+    // max nits
+    float max_nits, min_nits;
+    
+	char reserved[4];
 
 } voo_sequence_t;
 
