@@ -98,6 +98,13 @@ typedef enum {
 } voo_transferFunction_t;
 
 
+typedef enum {
+	vooCC_None,
+	vooCC_rec709,
+	vooCC_rec2020,
+} voo_color_spec_t;
+
+
 typedef enum
 {
 	vooDataArrangement_Unknown = -1,
@@ -239,7 +246,7 @@ typedef struct
 	// max nits
 	float max_nits, min_nits;
     
-	char reserved[4];
+	voo_color_spec_t color_spec;
 
 } voo_sequence_t;
 
