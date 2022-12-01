@@ -169,6 +169,14 @@ typedef enum
 	vooCO_c321x,
 	vooCO_c132x,
 
+	vooCO_cx123,
+	vooCO_cx231,
+	vooCO_cx312,
+
+	vooCO_cx213,
+	vooCO_cx321,
+	vooCO_cx132,
+
 	vooNumChannelOrders
 } voo_channelOrder_t;
 
