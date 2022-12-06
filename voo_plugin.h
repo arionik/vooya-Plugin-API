@@ -347,10 +347,8 @@ typedef struct
 	// May be called multiple times for the same frame.
 	void (*on_frame_done)( voo_video_frame_metadata_t * );
 
-	// Flags to signal something to vooya
-	#define VOOCallbackFlag_NeedsConsole 0x02 // tell vooya to auto-open its console window
-	int flags;
-
+	char reserved[4];
+	
 	// type determines which callback signature will be called
 	vooya_callback_type_t cb_type;
 
@@ -422,11 +420,7 @@ typedef struct {
 	// In that case, vooya will call open_nowhere( ... ).
 	vooBOOL b_fileBased;
 
-	// Flags to signal something to vooya
-	#define VOOInputFlag_DoNotCache 0x01 // tell vooya not to cache anything
-	int flags;
-
-	char reserved1[8];
+	char reserved1[12];
 
 	// If the input is file-based, responsible will be called with the file name and the
 	// first sixteen bytes of data, which e.g. might contain magic data. p_user is
@@ -516,7 +510,10 @@ typedef struct
 	const char *copyright;
 	const char *version;
 
-	// Flags to signal something to vooya (for future use)
+	// Flags to signal something to vooya
+#define vooPluginFlag_DoNotCache    0x01  // tell vooya not to cache anything
+#define vooPluginFlag_NeedsConsole  0x02  // tell vooya to auto-open its console window
+#define vooPluginFlag_NoDiffs       0x04  // tell vooya not to open this with diffs
 	int flags;
 
 	// any user data that shall be forwarded by vooya into other callback
