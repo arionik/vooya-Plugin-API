@@ -49,7 +49,7 @@
 	typedef char vooChar_t;
 	#define voo_strlen strlen
 	#define voo_strcmp strcmp
-	#define voo_strcpy strcpy
+	#define voo_strncpy strncpy
 	#define voo_snprintf snprintf
 	#define voo_fopen fopen
 	#define _v(v)v
