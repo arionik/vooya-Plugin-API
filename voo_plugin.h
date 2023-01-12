@@ -60,6 +60,10 @@
 	#endif
 #endif
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef int vooBOOL;
 #define TRUE  1
 #define FALSE 0
@@ -536,6 +540,9 @@ typedef struct
 
 } voo_plugin_t;
 
+#ifdef __cplusplus
+}
+#endif
 
 
 
