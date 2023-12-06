@@ -27,7 +27,7 @@
 */
 
 
-#define VOO_PLUGIN_API_VERSION 7
+#define VOO_PLUGIN_API_VERSION 8
 
 #ifdef __cplusplus
 	#define vooEXTERN_C extern "C"
@@ -301,21 +301,26 @@ typedef struct {
 
 
 // structure that is passed to frame-wise difference callbacks.
+enum { vooDiffValueTypeChannel, vooDiffValueTypeFrame, vooDiffValueTypeSequence };
 typedef struct {
 
 	// Pixel buffer a and b from sequence A and B, component 1,2,3
 	// (original value range and subsampling, but planar and converted to 32bit float)
-	float *c1_a;
-	float *c2_a;
-	float *c3_a;
-	float *c1_b;
-	float *c2_b;
-	float *c3_b;
+	const float *c1_a;
+	const float *c2_a;
+	const float *c3_a;
+	const float *c1_b;
+	const float *c2_b;
+	const float *c3_b;
 
-	int stride;
+	const int stride;
 
 	voo_video_frame_metadata_t *p_metadata;
-
+	
+	vooChar_t *component_names[3];  // e.g. psnr(y), psnr(cb) psnr(cr)
+	int32_t value_type;             // e.g. vooDiffValueTypeChannel
+	double result_values[3];        // result values of the calculation
+	
 } voo_diff_t;
 
 
