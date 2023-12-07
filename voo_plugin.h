@@ -317,9 +317,9 @@ typedef struct {
 
 	voo_video_frame_metadata_t *p_metadata;
 	
-	vooChar_t *component_names[3];  // e.g. psnr(y), psnr(cb) psnr(cr)
-	int32_t value_type;             // e.g. vooDiffValueTypeChannel
-	double result_values[3];        // result values of the calculation
+	const char *component_names[3];  // e.g. psnr(y), psnr(cb), psnr(cr)
+	int32_t value_type;              // e.g. vooDiffValueTypeChannel
+	double result_values[3];         // result values of the calculation
 	
 } voo_diff_t;
 
