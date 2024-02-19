@@ -183,6 +183,11 @@ typedef enum
 } voo_channelOrder_t;
 
 
+typedef enum {
+	vooOr_Top, vooOr_Right, vooOr_Bottom, vooOr_Left
+} voo_orientation_t;
+
+
 // structure vooya gives you in on_load_video( ... ).
 typedef struct {
 
@@ -257,6 +262,9 @@ typedef struct
 	float max_nits, min_nits;
     
 	voo_color_spec_t color_spec;
+	
+	// incoming orientation
+	voo_orientation_t orientation;
 
 } voo_sequence_t;
 
