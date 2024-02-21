@@ -27,7 +27,7 @@
 */
 
 
-#define VOO_PLUGIN_API_VERSION 8
+#define VOO_PLUGIN_API_VERSION 9
 
 #ifdef __cplusplus
 	#define vooEXTERN_C extern "C"
@@ -326,7 +326,7 @@ typedef struct {
 	voo_video_frame_metadata_t *p_metadata;
 	
 	const char *component_names[3];  // e.g. psnr(y), psnr(cb) psnr(cr)
-	int32_t value_type;              // e.g. vooDiffValueTypeChannel
+	int value_type;                  // e.g. vooDiffValueTypeChannel
 	double result_values[3];         // result values of the calculation
 	
 } voo_diff_t;
