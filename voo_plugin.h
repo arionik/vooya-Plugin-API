@@ -332,6 +332,22 @@ typedef struct {
 } voo_diff_t;
 
 
+typedef struct {
+	int x, y;                                  // coordinates of the magnifier center pixel
+	float *src_a, *src_b, *src_c;              // pointer to the magnifier center pixel
+	int stride, chrss_x, chrss_y;              // stride and subsampling (b,c) of the src_* buffers
+	// either float or integer values are taken depending on video format
+	float rfval_a, rfval_b, rfval_c, rfval_d;  // float output values (if replace_values = TRUE)
+	int rival_a, rival_b, rival_c, rival_d;    // integer output values (if replace_values = TRUE)
+	// if TRUE, r*val_* variables overwrite original values in magnifier display
+	vooBOOL replace_values;
+	// call to add text output into the magnifier.
+	void (*pfun_add_text)(void *cargo, const vooChar_t *text);
+	// needs to be pass along as cargo
+	void *pfun_add_text_cargo;
+} voo_magnification_t;
+
+
 // PLUGIN CALLBACK FUNCTION STRUCT
 //
 // This struct shall contain user-defined callback functions along with some metadata.
@@ -342,6 +358,7 @@ typedef enum {
  	vooCallback_EOTF,
  	vooCallback_Histogram,
 	vooCallback_Diff,
+	vooCallback_Magnifier,
 } vooya_callback_type_t;
 
 // And the actual callback description structure:
@@ -408,10 +425,15 @@ typedef struct
 
 		// For type == vooCallback_Diff:
 		// Called by vooya when two sequences are being compared.
-		// This method is called pixel-wise and thus not the fastest. Note that multiple threads
-		// (all for the same frame) might call this function concurrently.
+		// Note that multiple threads, all for the same frame,
+		// might call this function concurrently.
 		// see also voo_diff_t
 		void (*method_diff)( voo_diff_t *p_diff_pixel );
+		
+		// For type == vooCallback_Magnifier:
+		// Called by vooya when magnifier pops up or moves
+		// see also voo_magnification_t
+		void (*method_magnifier)( voo_magnification_t *p_context );
 	};
 	
 } vooya_callback_t;
