@@ -342,7 +342,7 @@ typedef struct {
 	// if TRUE, r*val_* variables overwrite original values in magnifier display
 	vooBOOL replace_values;
 	// call to add text output into the magnifier.
-	void (*pfun_add_text)(void *cargo, const vooChar_t *text);
+	void (*pfun_add_text)(void *cargo, const char *text);
 	// needs to be pass along as cargo
 	void *pfun_add_text_cargo;
 } voo_magnification_t;
