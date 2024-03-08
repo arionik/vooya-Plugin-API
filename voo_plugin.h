@@ -104,6 +104,7 @@ typedef enum {
 	vooCC_None,
 	vooCC_rec709,
 	vooCC_rec2020,
+	vooCC_p3,
 } voo_color_spec_t;
 
 
