@@ -273,7 +273,10 @@ typedef struct
 	
 	// incoming orientation
 	voo_orientation_t orientation;
-
+	
+	// max nits
+	float maxCLL, maxFALL;
+	
 } voo_sequence_t;
 
 
