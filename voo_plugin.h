@@ -109,6 +109,7 @@ typedef enum {
 
 typedef enum {
 	vooCC_None,
+	vooCC_rec601,
 	vooCC_rec709,
 	vooCC_rec2020,
 	vooCC_p3,
