@@ -281,7 +281,7 @@ typedef struct
 } voo_sequence_t;
 
 
-// Structure you get in per-frame callback functions.
+// Structure you get in per-frame callback functions, where an internal vooya frame is provided
 typedef struct {
 
 	// user data you might have provided in voo_describe( ... ) as voo_plugin_t::p_user
@@ -451,6 +451,31 @@ typedef struct
 } vooya_callback_t;
 
 
+typedef enum {
+	vooPictureType_NONE = 0, ///< Undefined
+	vooPictureType_I,     ///< Intra
+	vooPictureType_P,     ///< Predicted
+	vooPictureType_B,     ///< Bi-dir predicted
+	vooPictureType_S,     ///< S(GMC)-VOP MPEG-4
+	vooPictureType_SI,    ///< Switching Intra
+	vooPictureType_SP,    ///< Switching Predicted
+	vooPictureType_BI,    ///< BI type
+} vooPictureType_t; // in fact AVPictureType
+
+typedef struct {
+	vooBOOL b_skipped;
+
+#define vooFrameMetadataFlag_Keyframe 1
+#define vooFrameMetadataFlag_Corrupt  2
+	int flags;
+
+	vooPictureType_t type;
+	
+	void *buffer;
+	unsigned buffer_length;
+	
+} vooya_input_frame_metadata_t;
+
 
 // PLUGIN INPUT DESCRIPTION STRUCT
 //
@@ -509,7 +534,7 @@ typedef struct {
 	// with data, or to TRUE if client decided to no reload the frame if e.g. "frame" is
 	// repeated. "pp_user_frame" can hold custom data and is later available
 	// in voo_video_frame_metadata_t::p_user_frame.
-	vooBOOL (*load)( unsigned int frame, char *p_buffer, vooBOOL *pb_skipped,
+	vooBOOL (*load)( unsigned int frame, char *p_buffer, vooya_input_frame_metadata_t *p_metadata,
 				 void **pp_user_frame, void *p_user_seq );
 
 	vooBOOL (*eof)( void *p_user_seq );
