@@ -95,7 +95,8 @@ typedef enum {
 	vooCS_Gray,
 	vooCS_HSV,
 	vooCS_YCgCo,
-	vooCS_ICtCp
+	vooCS_ICtCp,
+	vooCS_IPT_C2,
 } voo_colorSpace_t;
 
 
