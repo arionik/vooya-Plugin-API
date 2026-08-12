@@ -27,7 +27,7 @@
 */
 
 
-#define VOO_PLUGIN_API_VERSION 9
+#define VOO_PLUGIN_API_VERSION 10
 
 #ifdef __cplusplus
 	#define vooEXTERN_C extern "C"
@@ -278,7 +278,15 @@ typedef struct
 	
 	// max nits
 	float maxCLL, maxFALL;
-	
+
+	// Audio, valid only if voo_plugin_t::voo_version >= 10 was set by this plugin.
+	// If b_has_audio is set, the plugin's input_plugin_t::load_audio( ... ) will be
+	// called during playback. Audio samples are always delivered as interleaved
+	// 32bit float PCM at audio_sample_rate/audio_channels.
+	vooBOOL b_has_audio;
+	int audio_sample_rate;
+	int audio_channels;
+
 } voo_sequence_t;
 
 
@@ -567,7 +575,19 @@ typedef struct {
 	// That difference is important on macOS. Here, you get the per-sequence user data.
 	void (*on_settings)( void *p_user_seq );
 
-	char reserved2[3*sizeof(void*)];
+	// Valid only if voo_plugin_t::voo_version >= 10 and voo_sequence_t::b_has_audio
+	// (as returned by get_properties( ... )) is set. May be NULL even then, if you
+	// declared audio but don't wish to implement this (audio will simply not play).
+	// Called by vooya once per video frame, right after load( frame, ... ), to fetch
+	// the audio samples spanning that video frame's presentation duration (1/fps
+	// seconds). Write interleaved 32bit float PCM samples (audio_channels interleaved
+	// per sample frame, as declared in get_properties( ... )) into p_buffer, up to
+	// max_samples sample frames, and return the number of sample frames actually
+	// written. Your own decode/read cursor should track position independently;
+	// seek( frame, ... ) is expected to reposition it to match the given video frame.
+	unsigned int (*load_audio)( unsigned int frame, float *p_buffer, unsigned int max_samples, void *p_user_seq );
+
+	char reserved2[2*sizeof(void*)];
 
 } input_plugin_t;
 
