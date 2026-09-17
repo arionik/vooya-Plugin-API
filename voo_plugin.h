@@ -27,7 +27,7 @@
 */
 
 
-#define VOO_PLUGIN_API_VERSION 10
+#define VOO_PLUGIN_API_VERSION 12
 
 #ifdef __cplusplus
 	#define vooEXTERN_C extern "C"
@@ -155,6 +155,11 @@ typedef enum
 	vooDA_yuv10,
 	vooDA_p010,
 	vooDA_p016,
+	vooDA_p210,
+	vooDA_p212,
+	vooDA_p216,
+	vooDA_y210,
+	vooDA_y216,
 	vooDA_interleaved444float,
 	vooDA_interleaved444Double,
 	vooNumDataArrangements
