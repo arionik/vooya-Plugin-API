@@ -312,8 +312,9 @@ typedef struct {
 	// frame number, beginning at zero
 	unsigned int frame_idx;
 
-#define vooPluginTextFlag_AlignRight  0x01
-#define vooPluginTextFlag_AlignCenter 0x02
+#define vooPluginTextFlag_AlignRight    0x01
+#define vooPluginTextFlag_AlignCenter   0x02
+#define vooPluginTextFlag_AppendMetrics 0x04 // text becomes another row below the difference metrics; x,y are ignored
 	// Tells vooya to display text for the given frame at the given position x,y relative to the video resolution.
 	// This function can be called from within an on_frame_done callback (and only from there)
 	// For "flags" see above, use p_textfun_cargo for "p_cargo"
