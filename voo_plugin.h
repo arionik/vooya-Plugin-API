@@ -27,7 +27,7 @@
 */
 
 
-#define VOO_PLUGIN_API_VERSION 12
+#define VOO_PLUGIN_API_VERSION 13
 
 #ifdef __cplusplus
 	#define vooEXTERN_C extern "C"
@@ -292,6 +292,13 @@ typedef struct
 	int audio_sample_rate;
 	int audio_channels;
 
+	// Since API version 13: the mastering display's primaries and white point
+	// (SMPTE ST 2086, e.g. from an HDR10 mastering display colour volume SEI or
+	// mdcv box) as CIE 1931 xy chromaticities, in the order red, green, blue,
+	// white point: { rx, ry, gx, gy, bx, by, wx, wy }. All zero if unknown.
+	// The mastering display's luminance range goes into max_nits/min_nits above.
+	float mastering_primaries[8];
+
 } voo_sequence_t;
 
 
@@ -486,9 +493,19 @@ typedef struct {
 
 	vooPictureType_t type;
 	
+	// the frame's Dolby Vision RPU (HEVC NAL unit type 62, or its payload), NULL/0 if none
 	void *buffer;
 	unsigned buffer_length;
-	
+
+	// Since API version 13: the frame's dynamic HDR10+ metadata (SMPTE ST 2094-40),
+	// i.e. the payload of its user data registered ITU-T T.35 message, beginning with
+	// application_version - the T.35 header before it (country code 0xB5, terminal
+	// provider code 0x003C, terminal provider oriented code 0x0001, application
+	// identifier 4) may be included or left out. NULL/0 if the frame carries none.
+	// Must stay valid until the next call of load( ... ).
+	void *hdr10plus_buffer;
+	unsigned hdr10plus_buffer_length;
+
 } vooya_input_frame_metadata_t;
 
 
