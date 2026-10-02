@@ -27,7 +27,7 @@
 */
 
 
-#define VOO_PLUGIN_API_VERSION 13
+#define VOO_PLUGIN_API_VERSION 14
 
 #ifdef __cplusplus
 	#define vooEXTERN_C extern "C"
@@ -298,6 +298,10 @@ typedef struct
 	// white point: { rx, ry, gx, gy, bx, by, wx, wy }. All zero if unknown.
 	// The mastering display's luminance range goes into max_nits/min_nits above.
 	float mastering_primaries[8];
+
+	// Since API version 14: optional HDR variant info from the container's codec configuration
+	// record, video layer's own display compatibility - 0=none, 1=HDR10, 2=SDR, 4=HLG.
+	int hdr_optional;
 
 } voo_sequence_t;
 
