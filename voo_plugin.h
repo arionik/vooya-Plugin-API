@@ -27,7 +27,7 @@
 */
 
 
-#define VOO_PLUGIN_API_VERSION 14
+#define VOO_PLUGIN_API_VERSION 15
 
 #ifdef __cplusplus
 	#define vooEXTERN_C extern "C"
@@ -509,6 +509,15 @@ typedef struct {
 	// Must stay valid until the next call of load( ... ).
 	void *hdr10plus_buffer;
 	unsigned hdr10plus_buffer_length;
+
+	// Since API version 15: the frame's SMPTE ST 2094-50 metadata (dynamic metadata for
+	// color volume transform, application #5), i.e. the payload of its user data
+	// registered ITU-T T.35 message, beginning with application_version - the T.35
+	// header before it (country code 0xB5, terminal provider code 0x0090, terminal
+	// provider oriented code 0x0001) may be included or left out. NULL/0 if the frame
+	// carries none. Must stay valid until the next call of load( ... ).
+	void *st2094_50_buffer;
+	unsigned st2094_50_buffer_length;
 
 } vooya_input_frame_metadata_t;
 
