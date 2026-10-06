@@ -498,8 +498,8 @@ typedef struct {
 	vooPictureType_t type;
 	
 	// the frame's Dolby Vision RPU (HEVC NAL unit type 62, or its payload), NULL/0 if none
-	void *buffer;
-	unsigned buffer_length;
+	void *dv_buffer;
+	unsigned dv_buffer_length;
 
 	// Since API version 13: the frame's dynamic HDR10+ metadata (SMPTE ST 2094-40),
 	// i.e. the payload of its user data registered ITU-T T.35 message, beginning with
@@ -507,6 +507,7 @@ typedef struct {
 	// provider code 0x003C, terminal provider oriented code 0x0001, application
 	// identifier 4) may be included or left out. NULL/0 if the frame carries none.
 	// Must stay valid until the next call of load( ... ).
+	// Dummy, not used in vooya.
 	void *hdr10plus_buffer;
 	unsigned hdr10plus_buffer_length;
 
@@ -516,6 +517,7 @@ typedef struct {
 	// header before it (country code 0xB5, terminal provider code 0x0090, terminal
 	// provider oriented code 0x0001) may be included or left out. NULL/0 if the frame
 	// carries none. Must stay valid until the next call of load( ... ).
+	// Dummy, not used in vooya.
 	void *st2094_50_buffer;
 	unsigned st2094_50_buffer_length;
 
