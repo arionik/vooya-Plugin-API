@@ -315,7 +315,8 @@ typedef struct {
 	// per-sequence user data you might have provided in voo_plugin_t::on_load_video( ... )
 	void *p_user_video;
 
-	// per-frame user data you might have provided in input_plugin_t::load( ... )
+	// per-frame user data you might have provided in input_plugin_t::load( ... ).
+	// Can be NULL if VOOPerFrameFlag_IsFromCache is set, even if you provided it.
 	void *p_user_frame;
 
 	voo_sequence_t *p_info;  // info about the current sequence
@@ -580,7 +581,9 @@ typedef struct {
 	// "pb_skipped" shall be set by the client to FALSE if the p_buffer has been filled
 	// with data, or to TRUE if client decided to no reload the frame if e.g. "frame" is
 	// repeated. "pp_user_frame" can hold custom data and is later available
-	// in voo_video_frame_metadata_t::p_user_frame.
+	// in voo_video_frame_metadata_t::p_user_frame. It has to stay valid until
+	// close( ... ) of this sequence, since cached frames keep it. vooya preloads
+	// through a sequence of its own, so frames from there have no such data.
 	vooBOOL (*load)( unsigned int frame, char *p_buffer, vooya_input_frame_metadata_t *p_metadata,
 				 void **pp_user_frame, void *p_user_seq );
 
